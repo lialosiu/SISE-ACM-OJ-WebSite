@@ -63,6 +63,32 @@ class Home extends CI_Controller
         $this->load->view('home/html-footer');
     }
 
+    public function editUser($ID = 0)
+    {
+        $CurrentUser = UserManager::getCurrentUserBySession();
+        $thatUser    = UserManager::getUserByID($ID);
+
+        //检查权限
+        if (!$CurrentUser->isAdministrator() || $thatUser->getID() != $ID) {
+            show_404();
+        }
+
+        $this->load->view('home/html-header', [
+            'CurrentUser' => $CurrentUser,
+            'thatUser'    => $thatUser
+        ]);
+        $this->load->view('home/header');
+
+        if ($thatUser->getID() === 0) {
+            $this->load->view('home/alert-show', ['alertDanger' => '用户不存在']);
+        } else {
+            $this->load->view('home/user-edit');
+        }
+
+        $this->load->view('home/footer');
+        $this->load->view('home/html-footer');
+    }
+
     public function createAGroupUser()
     {
         $CurrentUser   = UserManager::getCurrentUserBySession();
@@ -279,7 +305,7 @@ class Home extends CI_Controller
                 $this->load->view('home/contest-password');
             }
         } else {
-            $this->load->view('home/alert-show', ['alertWarning' => '比赛已结束']);
+            $this->load->view('home/alert-show', ['alertWarning' => '非比赛时间']);
         }
 
         $this->load->view('home/footer');
