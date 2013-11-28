@@ -12,7 +12,7 @@
     $(document).ready(function () {
         tinymce.init({
             selector: 'textarea#ProblemDescription,textarea#InputDescription,textarea#OutputDescription',
-            plugins : 'autolink autoresize link charmap code codehighlight fullscreen image paste table visualblocks visualchars',
+            plugins : 'autolink autoresize link charmap code fullscreen image paste table visualblocks visualchars',
             toolbar : "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
             language: 'zh_CN'
         });
