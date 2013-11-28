@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 /*
 | -------------------------------------------------------------------
 | AUTO-LOADER
@@ -52,7 +52,26 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array();
+$autoload['libraries'] = array(
+    'database',
+    'ACMAnswerCheckerConnector',
+    'Answer/Answer',
+    'Answer/AnswerList',
+    'Contest/Contest',
+    'Contest/ContestList',
+    'Manager/AnswerManager',
+    'Manager/ContestManager',
+    'Manager/ProblemManager',
+    'Manager/UserManager',
+    'Manager/GroupManager',
+    'Problem/Problem',
+    'Problem/ProblemList',
+    'User/User',
+    'User/UserList',
+    'Group/Group',
+    'Group/GroupList',
+    'Rank'
+);
 
 
 /*
@@ -64,7 +83,7 @@ $autoload['libraries'] = array();
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array();
+$autoload['helper'] = array('url', 'security', 'text');
 
 
 /*
@@ -109,7 +128,13 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
+$autoload['model'] = array(
+    "Answer_Model",
+    "Contest_Model",
+    "Problem_Model",
+    "User_Model",
+    "Group_Model",
+);
 
 
 /* End of file autoload.php */

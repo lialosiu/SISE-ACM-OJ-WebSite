@@ -1,0 +1,119 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+    font-family: "微软雅黑", "MSYH", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, strong, b {
+    text-shadow: 1px 1px 2px #BBB;
+}
+
+h1, h2, h3 {
+    font-weight: normal;
+    margin: 0 0 5px 0;
+}
+
+#header {
+    height: 300px;
+    position: relative;
+    background: rgba(255, 250, 250, 1) url('') no-repeat top right;
+    background-size: cover;
+    box-shadow: 0 0 20px rgba(100, 100, 100, 0.5);
+}
+
+#header-title {
+    padding: 5px 20px;
+    font-size: 20px;
+    background: rgba(220, 230, 255, 0.5) linear-gradient(to bottom, rgba(230, 230, 255, 0.4), rgba(230, 230, 255, 0.8));
+    box-shadow: 0 0 10px 1px rgba(200, 200, 200, 0.8);
+}
+
+#header-nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9;
+    background: #E6E6FF;
+    background: linear-gradient(to bottom, rgba(230, 230, 255, 0.4), rgba(230, 230, 255, 0.8));
+    box-shadow: 0 0 10px 1px rgba(200, 200, 200, 0.8)
+}
+
+#header-nav .nav-pills>li {
+    margin: 5px 10px;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+    color: #000;
+    background: #D2F0B9;
+    background: linear-gradient(to bottom, rgba(210, 240, 185, 0.4), rgba(220, 240, 170, 0.8));
+    box-shadow: 0 0 5px #888;
+}
+
+.nav-pills>li>a:hover, .nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+    color: #000;
+    background: #FFB7B7;
+    background: linear-gradient(to bottom, rgba(255, 183, 183, 0.4), rgba(255, 183, 183, 0.8));
+    box-shadow: 0 0 5px #888;
+}
+
+#content {
+    padding: 30px 50px 30px 50px;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #EEE;
+    background-color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    padding: 8px 0;
+    box-shadow: 0 0 10px #666;
+    z-index: 999;
+}
+
+.panel-heading, .panel-footer {
+    overflow: hidden;
+}
+
+.panel-heading label, .panel-footer label {
+    margin-bottom: 0;
+}
+
+table#problem-list tbody tr:nth-child(odd),
+table#contest-list tbody tr:nth-child(odd),
+table#answer-list tbody tr:nth-child(odd),
+table#user-list tbody tr:nth-child(odd),
+table#rank-list tbody tr:nth-child(odd) {
+    background: rgb(237, 255, 209);
+}
+
+table#problem-list tbody tr:nth-child(even),
+table#contest-list tbody tr:nth-child(even),
+table#answer-list tbody tr:nth-child(even),
+table#user-list tbody tr:nth-child(even),
+table#rank-list tbody tr:nth-child(even) {
+    background: rgb(223, 255, 245);
+}
+
+table#problem-list tbody tr:hover,
+table#contest-list tbody tr:hover,
+table#answer-list tbody tr:hover,
+table#user-list tbody tr:hover,
+table#rank-list tbody tr:hover {
+    background: rgb(255, 238, 238);
+    cursor: pointer;
+}
+
+table#rank-list tbody td.accepted {
+    background: rgb(0, 255, 0);
+}
+
+table#rank-list tbody td.submitted {
+    background: rgb(255, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
