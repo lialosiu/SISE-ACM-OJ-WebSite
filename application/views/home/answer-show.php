@@ -157,7 +157,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title">输入数据</h3>
@@ -168,24 +168,13 @@
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title">输出数据</h3>
                     </div>
                     <div class="panel-body">
                         <pre class="brush: plain"><?php echo htmlspecialchars($thatAnswer->getOutputData()); ?></pre>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">标准输出</h3>
-                    </div>
-                    <div class="panel-body">
-                        <pre class="brush: plain"><?php echo htmlspecialchars($thatProblem->getStandardOutput()); ?></pre>
                     </div>
                 </div>
             </div>
