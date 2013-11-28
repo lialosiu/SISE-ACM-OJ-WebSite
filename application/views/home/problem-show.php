@@ -87,7 +87,7 @@
                         <h3 class="panel-title">输入样例</h3>
                     </div>
                     <div class="panel-body">
-                        <pre class="brush: plain"><?php echo htmlspecialchars($thatProblem->getSampleInput()); ?></pre>
+                        <pre><?php echo htmlspecialchars($thatProblem->getSampleInput()); ?></pre>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                         <h3 class="panel-title">输出样例</h3>
                     </div>
                     <div class="panel-body">
-                        <pre class="brush: plain"><?php echo htmlspecialchars($thatProblem->getSampleOutput()); ?></pre>
+                        <pre><?php echo htmlspecialchars($thatProblem->getSampleOutput()); ?></pre>
                     </div>
                 </div>
             </div>
