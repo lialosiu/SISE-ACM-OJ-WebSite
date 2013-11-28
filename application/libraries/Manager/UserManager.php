@@ -10,6 +10,14 @@ class UserManager
      */
     public static function register($Username, $Password)
     {
+        /** @var $CI CI */
+        $CI =& get_instance();
+        $CI->load->library('session');
+
+        if ($CI->session->userdata('LastRegisterTime') && (time() - $CI->session->userdata('LastRegisterTime')) / 60 < 15) {
+            throw new Exception("15分钟内不能多次注册");
+        }
+
         //判断用户名是否存在
         if (self::IsUsernameExist($Username)) {
             //用户名已存在
@@ -26,6 +34,9 @@ class UserManager
             $salt,
             0
         );
+
+        //储存用户ID信息至Session
+        $CI->session->set_userdata('LastRegisterTime', time());
 
         //新建用户
         $thatUser = User_Model::addUser($thatUser);

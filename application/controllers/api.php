@@ -32,7 +32,11 @@ class Api extends CI_Controller
                 $password = $this->input->post('Password1');
 
                 //用户注册
-                UserManager::register($username, $password);
+                try {
+                    UserManager::register($username, $password);
+                } catch (Exception $ex) {
+                    die($ex->getMessage());
+                }
 
                 //不是ajax请求，跳转到登录页面
                 if (!$this->input->is_ajax_request()) redirect(base_url('login'));
