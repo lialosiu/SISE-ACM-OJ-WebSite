@@ -350,6 +350,11 @@ class Api extends CI_Controller
 
         $thatProblem = ProblemManager::getProblemByID($this->input->post('ID'));
 
+        foreach ($thatProblem->getAnswerList()->getAnswerArray() as $thisAnswer) {
+            /** @var Answer $thisAnswer */
+            AnswerManager::deleteAnswer($thisAnswer);
+        }
+
         ProblemManager::deleteProblem($thatProblem);
 
         //不是ajax请求，跳转

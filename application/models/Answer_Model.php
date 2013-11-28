@@ -295,4 +295,21 @@ class Answer_Model extends CI_Model
             return null;
     }
 
+
+    /**
+     * @param Answer $thatAnswer
+     * @return bool
+     */
+    public static function deleteAnswer($thatAnswer)
+    {
+        /** @var CI $CI */
+        $CI =& get_instance();
+        $CI->db->where('ID', $thatAnswer->getID());
+        $deleteResult = $CI->db->delete('answer');
+        if ($deleteResult)
+            return true;
+        else
+            return false;
+    }
+
 }

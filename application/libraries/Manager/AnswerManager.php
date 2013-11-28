@@ -102,4 +102,13 @@ class AnswerManager
         return Answer_Model::getAnswerListByPageAndLimit($Page, $Limit);
     }
 
+    /**
+     * @param Answer $thatAnswer
+     * @return bool
+     */
+    public static function deleteAnswer($thatAnswer)
+    {
+        return Answer_Model::deleteAnswer($thatAnswer);
+    }
+
 }
