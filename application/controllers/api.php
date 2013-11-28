@@ -158,6 +158,12 @@ class Api extends CI_Controller
 
     public function answerProblem()
     {
+        //检查权限
+        if ($this->CurrentUser->getID() == 0) {
+            if (!$this->input->is_ajax_request()) redirect(base_url('login'));
+            exit;
+        }
+
         //检查表单合法性
         if ($this->input->post('ID') === false ||
             $this->input->post('LanguageCode') === false ||
