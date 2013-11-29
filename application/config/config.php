@@ -16,7 +16,7 @@ $config['time_zone'] = date_default_timezone_set('Asia/shanghai');
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/siseoj';
+$config['base_url']	= '';
 
 /*
 |--------------------------------------------------------------------------
