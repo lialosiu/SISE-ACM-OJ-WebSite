@@ -499,7 +499,22 @@ class Api extends CI_Controller
 
     public function getRankDataAsJSONByContestID($ContestID)
     {
-        exit(json_encode(Rank::byContestID($ContestID)));
+        if (!$ContestID || !is_numeric($ContestID)) {
+            show_404();
+        }
+
+        $thatContest = ContestManager::getContestByID($ContestID);
+
+        if ($thatContest) {
+            //检查权限
+            if ($this->CurrentUser->isAdministrator() || $thatContest->isRankTime()) {
+                exit(json_encode(Rank::byContestID($ContestID)));
+            } else {
+                exit;
+            }
+        } else {
+            show_404();
+        }
     }
 
 }

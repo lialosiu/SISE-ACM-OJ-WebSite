@@ -179,6 +179,18 @@ class Contest
     }
 
     /**
+     * @return bool
+     */
+    public function isRankTime()
+    {
+        if (time() < (strtotime($this->EndTime) - (60 * 60)) || strtotime($this->EndTime) < time()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * @return string
      */
     public function getStatus()

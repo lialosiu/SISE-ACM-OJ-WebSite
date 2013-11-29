@@ -28,7 +28,7 @@
 </script>
 <div id="content">
     <div class="panel panel-default">
-        <table id="contest-list" class="table table-condensed">
+        <table id="contest-list" class="table">
             <thead>
             <tr>
                 <th>ID</th>
@@ -50,7 +50,10 @@
                         <td><?php echo $thisContest->getEndTime(); ?></td>
                         <td><?php echo($thisContest->getPasswordHashed() ? 'Private' : 'Public'); ?></td>
                         <td><?php echo $thisContest->getStatus(); ?></td>
-                        <td><a href="<?php echo base_url('home/rankContest/' . $thisContest->getID()); ?>">Rank</a></td>
+                        <td>
+                            <a class="btn btn-primary btn-xs" href="<?php echo base_url('home/rankContest/' . $thisContest->getID()); ?>">排行榜</a>
+                            <a class="btn btn-primary btn-xs" href="<?php echo base_url('home/listAnswer?c=' . $thisContest->getID()); ?>">判题状态</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>

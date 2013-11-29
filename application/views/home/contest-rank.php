@@ -14,7 +14,12 @@
                 type   : "post",
                 data   : {},
                 success: function (data) {
-                    displayRankData($.parseJSON(data));
+                    if (data)
+                        displayRankData($.parseJSON(data));
+                    else {
+                        clearInterval(Interval_getRankData);
+                        $('table#rank-list>tbody').html('<h2 class="alert alert-info text-center">已封榜</h2>');
+                    }
                 },
                 error  : function (jqXHR, textStatus, errorThrown) {
                     console.error(textStatus);
@@ -59,7 +64,7 @@
             </tr>
             </thead>
             <tbody>
-            <?php if (isset($thatRankData)): ?>
+            <?php if (isset($thatRankData) && $thatContest->isRankTime()): ?>
                 <?php foreach ($thatRankData as $key => $thisRankData_Row) : ?>
                     <tr>
                         <td><?php echo $key + 1; ?></td>
