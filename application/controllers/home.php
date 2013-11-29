@@ -381,8 +381,22 @@ class Home extends CI_Controller
 
     public function listAnswer()
     {
-        $CurrentUser    = UserManager::getCurrentUserBySession();
-        $thatAnswerList = AnswerManager::getAnswerList();
+        $CurrentUser = UserManager::getCurrentUserBySession();
+
+        $thatAnswerList = null;
+        if ($this->input->get('c') && is_numeric($this->input->get('c'))) {
+            $thatContest = ContestManager::getContestByID($this->input->get('c'));
+            if ($thatContest) {
+                $thatProblemIDArray = [];
+                foreach ($thatContest->getProblemList()->getProblemArray() as $thisProblem) {
+                    /** @var Problem $thisProblem */
+                    $thatProblemIDArray[] = $thisProblem->getID();
+                }
+                $thatAnswerList = AnswerManager::getAnswerListByProblemIDArray($thatProblemIDArray);
+            }
+        } else {
+            $thatAnswerList = AnswerManager::getAnswerList();
+        }
 
         $this->load->view('home/html-header', [
             'CurrentUser'    => $CurrentUser,

@@ -41,6 +41,7 @@
             <h3>
                 <span class="label label-success">开始时间: <?php echo $thatContest->getStartTime(); ?></span>
                 <span class="label label-danger">结束时间: <?php echo $thatContest->getEndTime(); ?></span>
+                <a class="btn btn-info" href="<?php echo base_url('home/listAnswer?c=' . $thatContest->getID()); ?>">判题状态</a>
             </h3>
         </div>
 
