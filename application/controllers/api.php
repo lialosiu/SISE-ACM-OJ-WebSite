@@ -232,6 +232,13 @@ class Api extends CI_Controller
         $LanguageCode = $this->input->post('LanguageCode');
         $SourceCode   = $this->input->post('SourceCode');
 
+        if ($thatProblem->getContestID() != 0) {
+            $thatContest = ContestManager::getContestByID($thatProblem->getContestID());
+            if (!$thatContest->isRunning()) {
+                show_error('比赛已结束');
+            }
+        }
+
         AnswerManager::createAnswer($thatProblem, $CurrentUser, $LanguageCode, $SourceCode);
 
         ACMAnswerCheckerConnector::CheckPendingAnswer();
