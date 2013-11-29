@@ -56,7 +56,10 @@
                         "sNext"    : ">",
                         "sLast"    : ">>"
                     }
-                }
+                },
+                "aaSorting"      : [
+                    [ 0, "desc" ]
+                ]
             });
         });
     </script>
