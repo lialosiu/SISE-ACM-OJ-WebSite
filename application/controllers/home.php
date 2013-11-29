@@ -65,17 +65,19 @@ class Home extends CI_Controller
 
     public function editUser($ID = 0)
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
-        $thatUser    = UserManager::getUserByID($ID);
+        $CurrentUser   = UserManager::getCurrentUserBySession();
+        $thatGroupList = GroupManager::getGroupList();
+        $thatUser      = UserManager::getUserByID($ID);
 
         //检查权限
-        if (!$CurrentUser->isAdministrator() || $thatUser->getID() != $ID) {
+        if (!$CurrentUser->isAdministrator() && $CurrentUser->getID() != $ID) {
             show_404();
         }
 
         $this->load->view('home/html-header', [
-            'CurrentUser' => $CurrentUser,
-            'thatUser'    => $thatUser
+            'CurrentUser'   => $CurrentUser,
+            'thatUser'      => $thatUser,
+            'thatGroupList' => $thatGroupList
         ]);
         $this->load->view('home/header');
 

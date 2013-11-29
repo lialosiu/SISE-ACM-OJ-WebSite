@@ -54,6 +54,59 @@ class Api extends CI_Controller
         }
     }
 
+    public function editUser()
+    {
+        //检查参数
+        if (
+            $this->input->post('ID') === false ||
+            $this->input->post('Username') === false ||
+            $this->input->post('Nickname') === false ||
+            $this->input->post('NewPassword1') === false ||
+            $this->input->post('NewPassword2') === false ||
+            !is_numeric($this->input->post('ID'))
+        ) {
+            show_404();
+        }
+
+        if ($this->input->post('NewPassword1') !== $this->input->post('NewPassword2'))
+            show_error('两次输入的密码不相同');
+
+        $thatUser = UserManager::getUserByID($this->input->post('ID'));
+
+        if ($thatUser && $thatUser->getID() != 0) {
+            if (
+                $this->CurrentUser->isAdministrator()
+                ||
+                //验证旧密码
+                ($this->input->post('OldPassword') && $thatUser->getPasswordHashed() === do_hash(do_hash($this->input->post('OldPassword')) . $thatUser->getSalt()))
+            ) {
+                if ($this->input->post('Username') !== $thatUser->getUsername() && UserManager::IsUsernameExist($this->input->post('Username')))
+                    show_error('用户名已存在');
+
+                $thatUser->setUsername($this->input->post('Username'));
+                $thatUser->setNickname($this->input->post('Nickname'));
+
+                if ($this->input->post('NewPassword1') !== '')
+                    $thatUser->setPasswordHashed(do_hash(do_hash($this->input->post('NewPassword1')) . $thatUser->getSalt()));
+
+                if ($this->input->post('GroupID') && $this->CurrentUser->isAdministrator()) {
+                    $thatUser->setGroupID($this->input->post('GroupID'));
+                }
+
+                $thatUser = UserManager::updateUser($thatUser);
+
+                //不是ajax请求，跳转
+                if (!$this->input->is_ajax_request()) redirect(base_url('home/showUser/' . $thatUser->getID()));
+
+            } else {
+                show_error('密码错误');
+            }
+        } else {
+            show_404();
+        }
+
+    }
+
     public function createAGroupUser()
     {
         //检查权限

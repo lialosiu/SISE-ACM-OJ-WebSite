@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class UserManager
+ */
 class UserManager
 {
     /**
@@ -315,4 +318,14 @@ class UserManager
             return false;
         }
     }
+
+    /**
+     * @param User $thatUser
+     * @return User
+     */
+    public static function updateUser($thatUser)
+    {
+        return User_Model::updateUser($thatUser);
+    }
+
 }

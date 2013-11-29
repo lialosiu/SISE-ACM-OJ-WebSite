@@ -118,9 +118,13 @@
         </div>
 
         <div>
-            <?php if (isset($CurrentUser) && $CurrentUser->isAdministrator()): ?>
-                <a class="btn btn-primary" href="<?php echo base_url('home/editUser/' . $thatUser->getID()); ?>">修改用户信息</a>
-                <a class="btn btn-primary" href="<?php echo base_url('home/deleteUser/' . $thatUser->getID()); ?>">删除用户</a>
+            <?php if (isset($CurrentUser)): ?>
+                <?php if ($CurrentUser->getID() == $thatUser->getID() || $CurrentUser->isAdministrator()): ?>
+                    <a class="btn btn-primary" href="<?php echo base_url('home/editUser/' . $thatUser->getID()); ?>">修改用户信息</a>
+                    <?php if ($CurrentUser->isAdministrator()): ?>
+                        <a class="btn btn-primary" href="<?php echo base_url('home/deleteUser/' . $thatUser->getID()); ?>">删除用户</a>
+                    <?php endif; ?>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
 
