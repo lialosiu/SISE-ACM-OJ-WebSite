@@ -22,7 +22,7 @@ class Api extends CI_Controller
             //有post提交Username、Password1、Password2
 
             if (strlen($this->input->post('Username')) < 3) {
-                die('用户名太短');
+                show_error('用户名太短');
             }
 
             //检查两次输入的密码是否匹配
@@ -35,7 +35,7 @@ class Api extends CI_Controller
                 try {
                     UserManager::register($username, $password);
                 } catch (Exception $ex) {
-                    die($ex->getMessage());
+                    show_error($ex->getMessage());
                 }
 
                 //不是ajax请求，跳转到登录页面
@@ -128,11 +128,11 @@ class Api extends CI_Controller
         }
 
         if (strlen($this->input->post('UsernamePre')) < 2) {
-            die('用户名前缀太短');
+            show_error('用户名前缀太短');
         }
 
         if (is_numeric($this->input->post('StartNumber')) > is_numeric($this->input->post('EndNumber'))) {
-            die('大小反了→_→');
+            show_error('大小反了→_→');
         }
 
         $newUserData = [];
@@ -165,7 +165,7 @@ class Api extends CI_Controller
         }
 
         if (strlen($this->input->post('GroupName')) < 2) {
-            die('组名太短');
+            show_error('组名太短');
         }
 
         GroupManager::createGroup($this->input->post('GroupName'));
@@ -186,7 +186,7 @@ class Api extends CI_Controller
             try {
                 UserManager::login($username, $password);
             } catch (Exception $ex) {
-                die($ex->getMessage());
+                show_error($ex->getMessage());
             }
 
             //不是ajax请求，跳转回首页
