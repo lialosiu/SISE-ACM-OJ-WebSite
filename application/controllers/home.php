@@ -167,10 +167,10 @@ class Home extends CI_Controller
         ) {
             if ($this->input->post('Password') === false) {
                 $this->load->view('home/problem-password');
-            } else if ($this->input->post('Password') && do_hash($this->input->post('Password')) !== $thatProblem->getPasswordHashed()) {
-                $this->load->view('home/problem-password', ['alertDanger' => '密码错误']);
-            } else {
+            } else if ($this->input->post('Password') && do_hash($this->input->post('Password')) === $thatProblem->getPasswordHashed()) {
                 $this->load->view('home/problem-show');
+            } else {
+                $this->load->view('home/problem-password', ['alertDanger' => '密码错误']);
             }
         } else {
             $this->load->view('home/problem-show');
