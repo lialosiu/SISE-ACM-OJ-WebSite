@@ -247,6 +247,24 @@ class Api extends CI_Controller
         if (!$this->input->is_ajax_request()) redirect(base_url('home/listAnswer/'));
     }
 
+    public function getStandardIOFile($ProblemID = false, $Filename = false)
+    {
+        if (!$this->input->post('KEY') || $this->input->post('KEY') !== 'ernfdgkaih4sdfkj4bd43hgfh566' || !$ProblemID || !$Filename
+            ||
+            ($this->input->ip_address() !== '::1' && $this->input->ip_address() !== '127.0.0.1' && $this->input->ip_address() !== '192.168.55.2')) {
+            show_404();
+        }
+
+        $this->load->helper('file');
+
+        $thisFileData = read_file('D:/ProblemStdIOData/' . $ProblemID . '/' . $Filename);
+
+        if ($thisFileData !== false)
+            exit($thisFileData);
+        else
+            show_404();
+    }
+
     public function addProblem()
     {
         //检查权限
@@ -269,13 +287,21 @@ class Api extends CI_Controller
             $this->input->post('TimeLimitJava') === false ||
             $this->input->post('MemoryLimitNormal') === false ||
             $this->input->post('MemoryLimitJava') === false ||
-            $this->input->post('StandardInput') === false ||
-            $this->input->post('StandardOutput') === false ||
             $this->input->post('Password') === false ||
             $this->input->post('Contest') === false
         ) {
             show_404();
         }
+
+
+        $uploadPath = 'D:/ProblemStdIOData/' . $this->input->post('ID');
+        if (!file_exists($uploadPath)) mkdir($uploadPath);
+        $this->load->library('upload', ['upload_path' => $uploadPath, 'allowed_types' => '*', 'encrypt_name' => true]);
+
+        $this->upload->do_upload('StandardInputFile');
+        $getStandardInputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
+        $this->upload->do_upload('StandardOutputFile');
+        $getStandardOutputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
 
         $thatProblem = ProblemManager::createProblem(
             $this->CurrentUser,
@@ -292,8 +318,8 @@ class Api extends CI_Controller
             $this->input->post('TimeLimitJava'),
             $this->input->post('MemoryLimitNormal'),
             $this->input->post('MemoryLimitJava'),
-            $this->input->post('StandardInput'),
-            $this->input->post('StandardOutput'),
+            $getStandardInputURL,
+            $getStandardOutputURL,
             $this->input->post('Password'),
             [],
             $this->input->post('PermissibleGroupsIDArray') ? $this->input->post('PermissibleGroupsIDArray') : [],
@@ -335,8 +361,6 @@ class Api extends CI_Controller
             $this->input->post('TimeLimitJava') === false ||
             $this->input->post('MemoryLimitNormal') === false ||
             $this->input->post('MemoryLimitJava') === false ||
-            $this->input->post('StandardInput') === false ||
-            $this->input->post('StandardOutput') === false ||
             $this->input->post('Password') === false ||
             $this->input->post('Contest') === false ||
             !is_numeric($this->input->post('ID'))
@@ -359,8 +383,18 @@ class Api extends CI_Controller
         $thatProblem->setTimeLimitJava($this->input->post('TimeLimitJava'));
         $thatProblem->setMemoryLimitNormal($this->input->post('MemoryLimitNormal'));
         $thatProblem->setMemoryLimitJava($this->input->post('MemoryLimitJava'));
-        $thatProblem->setStandardInput($this->input->post('StandardInput'));
-        $thatProblem->setStandardOutput($this->input->post('StandardOutput'));
+
+        $uploadPath = 'D:/ProblemStdIOData/' . $this->input->post('ID');
+        if (!file_exists($uploadPath)) mkdir($uploadPath);
+        $this->load->library('upload', ['upload_path' => $uploadPath, 'allowed_types' => '*', 'encrypt_name' => true]);
+
+        $this->upload->do_upload('StandardInputFile');
+        $getStandardInputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
+        $this->upload->do_upload('StandardOutputFile');
+        $getStandardOutputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
+
+        $thatProblem->setStandardInput($getStandardInputURL);
+        $thatProblem->setStandardOutput($getStandardOutputURL);
 
         if ($this->input->post('Password'))
             $thatProblem->setPasswordHashed(do_hash($this->input->post('Password')));

@@ -152,8 +152,11 @@
                 <h3 class="panel-title"><label for="StandardInput" class="hide">标准输入</label>标准输入</h3>
             </div>
             <div class="panel-body">
-                <textarea id="StandardInput" name="StandardInput" class="form-control" rows="5"
-                          style="resize: vertical;"></textarea>
+                <a class='btn btn-primary' href='javascript:' style="position: relative;display: block;">
+                    上传标准输入文件...
+                    <input type="file" id="StandardInput" name="StandardInputFile" onchange='$("#StandardInput-SelectedFileInfo").html($(this).val());' style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;opacity: 0;"/>
+                </a>
+                <pre id="StandardInput-SelectedFileInfo"></pre>
             </div>
         </div>
     </div>
@@ -164,8 +167,11 @@
                 <h3 class="panel-title"><label for="StandardOutput" class="hide">标准输出</label>标准输出</h3>
             </div>
             <div class="panel-body">
-                <textarea id="StandardOutput" name="StandardOutput" class="form-control" rows="5"
-                          style="resize: vertical;"></textarea>
+                <a class='btn btn-primary' href='javascript:' style="position: relative;display: block;">
+                    上传标准输出文件...
+                    <input type="file" id="StandardOutput" name="StandardOutputFile" onchange='$("#StandardOutput-SelectedFileInfo").html($(this).val());' style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;opacity: 0;"/>
+                </a>
+                <pre id="StandardOutput-SelectedFileInfo"></pre>
             </div>
         </div>
     </div>

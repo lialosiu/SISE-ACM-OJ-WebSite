@@ -19,7 +19,7 @@
 </script>
 <div id="content">
 <?php if (isset ($thatProblem)) : ?>
-    <form method="post" action="<?php echo base_url('api/editProblem'); ?>">
+    <form method="post" enctype="multipart/form-data" action="<?php echo base_url('api/editProblem'); ?>">
     <input type="hidden" name="ID" value="<?php echo $thatProblem->getID(); ?>"/>
 
     <div class="text-center">
@@ -160,8 +160,11 @@
                     <h3 class="panel-title"><label for="StandardInput" class="hide">标准输入</label>标准输入</h3>
                 </div>
                 <div class="panel-body">
-                    <textarea id="StandardInput" name="StandardInput" class="form-control" rows="5"
-                              style="resize: vertical;"><?php echo $thatProblem->getStandardInput(); ?></textarea>
+                    <a class='btn btn-primary' href='javascript:' style="position: relative;display: block;">
+                        上传标准输入文件...
+                        <input type="file" id="StandardInput" name="StandardInputFile" onchange='$("#StandardInput-SelectedFileInfo").html($(this).val());' style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;opacity: 0;"/>
+                    </a>
+                    <pre id="StandardInput-SelectedFileInfo"><?php echo $thatProblem->getStandardInput();?></pre>
                 </div>
             </div>
         </div>
@@ -172,8 +175,11 @@
                     <h3 class="panel-title"><label for="StandardOutput" class="hide">标准输出</label>标准输出</h3>
                 </div>
                 <div class="panel-body">
-                    <textarea id="StandardOutput" name="StandardOutput" class="form-control" rows="5"
-                              style="resize: vertical;"><?php echo $thatProblem->getStandardOutput(); ?></textarea>
+                    <a class='btn btn-primary' href='javascript:' style="position: relative;display: block;">
+                        上传标准输出文件...
+                        <input type="file" id="StandardOutput" name="StandardOutputFile" onchange='$("#StandardOutput-SelectedFileInfo").html($(this).val());' style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;opacity: 0;"/>
+                    </a>
+                    <pre id="StandardOutput-SelectedFileInfo"><?php echo $thatProblem->getStandardOutput();?></pre>
                 </div>
             </div>
         </div>
@@ -257,7 +263,8 @@
                     <?php if (isset($thatContestList)): ?>
                         <?php foreach ($thatContestList->getContestArray() as $thisContest) : ?>
                             <label class="radio-inline">
-                                <input type="radio" name="Contest" value="<?php echo $thisContest->getID(); ?>" <?php if ($thatProblem->getContestID() == $thisContest->getID()) echo 'checked'; ?>> <?php echo $thisContest->getTitle(); ?>
+                                <input type="radio" name="Contest"
+                                       value="<?php echo $thisContest->getID(); ?>" <?php if ($thatProblem->getContestID() == $thisContest->getID()) echo 'checked'; ?>> <?php echo $thisContest->getTitle(); ?>
                             </label>
                         <?php endforeach; ?>
                     <?php endif; ?>
