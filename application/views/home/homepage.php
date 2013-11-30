@@ -14,17 +14,36 @@
             </blockquote>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <blockquote>
-                <h1>About SISE ACM-ICPC Club</h1>
+            <div id="homepage-carousel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#homepage-carousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#homepage-carousel" data-slide-to="1"></li>
+                    <li data-target="#homepage-carousel" data-slide-to="2"></li>
+                    <li data-target="#homepage-carousel" data-slide-to="3"></li>
+                </ol>
 
-                <hr/>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="<?php echo base_url('public/images/1.jpg');?>">
+                    </div>
+                    <div class="item">
+                        <img src="<?php echo base_url('public/images/2.jpg');?>">
+                    </div>
+                    <div class="item">
+                        <img src="<?php echo base_url('public/images/3.jpg');?>">
+                    </div>
+                    <div class="item">
+                        <img src="<?php echo base_url('public/images/4.jpg');?>">
+                    </div>
+                </div>
 
-                <p>　　我院ACM俱乐部成立于2012年11月，隶属于广州大学华软软件学院计算机协会旗下，以ACM竞赛知识学习与交流的兴趣类社团组织。</p>
-
-                <p>　　ACM俱乐部每学期通过集训队队员定期培训等方式，使俱乐部成员基本了解ACMICPC竞赛，掌握基本数据结构与算法知识。除此之外，定期俱乐部内会举办趣味会员赛。</p>
-
-                <p>　　ACM俱乐部成员通过参加每年十一月份的“程序设计竞赛暨集训队选拔赛”，成绩优异者将有机会优先进入集训队进行为期一年的集训。</p>
-            </blockquote>
+                <a class="left carousel-control" href="#homepage-carousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#homepage-carousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
         </div>
     </div>
 </div>
