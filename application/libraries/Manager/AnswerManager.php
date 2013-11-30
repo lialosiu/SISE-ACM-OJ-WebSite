@@ -19,8 +19,6 @@ class AnswerManager
             $User->getID(),
             $LanguageCode,
             $SourceCode,
-            '',
-            '',
             0,
             0,
             _StatusCode_Pending,
