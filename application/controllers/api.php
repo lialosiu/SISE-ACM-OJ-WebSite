@@ -294,15 +294,21 @@ class Api extends CI_Controller
             show_404();
         }
 
-
         $uploadPath = 'D:/ProblemStdIOData/' . $this->input->post('ID');
         if (!file_exists($uploadPath)) mkdir($uploadPath);
         $this->load->library('upload', ['upload_path' => $uploadPath, 'allowed_types' => '*', 'encrypt_name' => true]);
 
-        $this->upload->do_upload('StandardInputFile');
-        $getStandardInputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
-        $this->upload->do_upload('StandardOutputFile');
-        $getStandardOutputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
+        $getStandardInputURL = "";
+        if ($this->upload->do_upload('StandardInputFile'))
+            $getStandardInputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
+        else {
+        }
+        $getStandardOutputURL = "";
+        if ($this->upload->do_upload('StandardOutputFile'))
+            $getStandardOutputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
+        else {
+        }
+
 
         $thatProblem = ProblemManager::createProblem(
             $this->CurrentUser,
@@ -389,19 +395,17 @@ class Api extends CI_Controller
         if (!file_exists($uploadPath)) mkdir($uploadPath);
         $this->load->library('upload', ['upload_path' => $uploadPath, 'allowed_types' => '*', 'encrypt_name' => true]);
 
-        $getStandardInputURL = "";
-        if ($this->upload->do_upload('StandardInputFile'))
+        if ($this->upload->do_upload('StandardInputFile')) {
             $getStandardInputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
-        else {
-        }
-        $getStandardOutputURL = "";
-        if ($this->upload->do_upload('StandardOutputFile'))
-            $getStandardOutputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
-        else {
+            $thatProblem->setStandardInput($getStandardInputURL);
+        } else {
         }
 
-        $thatProblem->setStandardInput($getStandardInputURL);
-        $thatProblem->setStandardOutput($getStandardOutputURL);
+        if ($this->upload->do_upload('StandardOutputFile')) {
+            $getStandardOutputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
+            $thatProblem->setStandardOutput($getStandardOutputURL);
+        } else {
+        }
 
         if ($this->input->post('Password'))
             $thatProblem->setPasswordHashed(do_hash($this->input->post('Password')));
