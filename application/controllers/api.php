@@ -251,7 +251,8 @@ class Api extends CI_Controller
     {
         if (!$this->input->post('KEY') || $this->input->post('KEY') !== 'ernfdgkaih4sdfkj4bd43hgfh566' || !$ProblemID || !$Filename
             ||
-            ($this->input->ip_address() !== '::1' && $this->input->ip_address() !== '127.0.0.1' && $this->input->ip_address() !== '192.168.55.2')) {
+            ($this->input->ip_address() !== '::1' && $this->input->ip_address() !== '127.0.0.1' && $this->input->ip_address() !== '192.168.55.2')
+        ) {
             show_404();
         }
 
@@ -388,10 +389,16 @@ class Api extends CI_Controller
         if (!file_exists($uploadPath)) mkdir($uploadPath);
         $this->load->library('upload', ['upload_path' => $uploadPath, 'allowed_types' => '*', 'encrypt_name' => true]);
 
-        $this->upload->do_upload('StandardInputFile');
-        $getStandardInputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
-        $this->upload->do_upload('StandardOutputFile');
-        $getStandardOutputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
+        $getStandardInputURL = "";
+        if ($this->upload->do_upload('StandardInputFile'))
+            $getStandardInputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
+        else {
+        }
+        $getStandardOutputURL = "";
+        if ($this->upload->do_upload('StandardOutputFile'))
+            $getStandardOutputURL = 'api/getStandardIOFile/' . $this->input->post('ID') . '/' . $this->upload->data()['file_name'];
+        else {
+        }
 
         $thatProblem->setStandardInput($getStandardInputURL);
         $thatProblem->setStandardOutput($getStandardOutputURL);
