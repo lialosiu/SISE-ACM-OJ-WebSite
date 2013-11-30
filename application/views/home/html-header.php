@@ -37,6 +37,8 @@
     <title>SISE ACM-ICPC Online Judge</title>
 
     <script type="text/javascript">
+        var LatestNotificationID = -1;
+        var Interval_checkNotification;
         $(document).ready(function () {
             SyntaxHighlighter.all();
             $.extend(true, $.fn.dataTable.defaults, {
@@ -61,8 +63,57 @@
                     [ 0, "desc" ]
                 ]
             });
+            Interval_checkNotification = setInterval("checkNotification()", 10000);
         });
+
+        function checkNotification() {
+            $.ajax({
+                url    : '<?php echo base_url('api/getNotificationListAsJson')?>',
+                type   : "post",
+                data   : {},
+                success: function (data) {
+                    try {
+                        var NotificationList = $.parseJSON(data);
+                        if (NotificationList.length === 0) {
+                            LatestNotificationID = 0;
+                        } else {
+                            if (LatestNotificationID === -1)
+                                LatestNotificationID = NotificationList[NotificationList.length - 1].ID;
+                            else if (LatestNotificationID < NotificationList[NotificationList.length - 1].ID) {
+                                $('#NotificationModal .modal-title').html(NotificationList[NotificationList.length - 1].Title);
+                                $('#NotificationModal .modal-body').html(NotificationList[NotificationList.length - 1].Content);
+                                LatestNotificationID = NotificationList[NotificationList.length - 1].ID;
+                                $('#NotificationModal').modal();
+                            }
+                        }
+                    } catch (e) {
+                        console.log(e);
+                        clearInterval(Interval_checkNotification);
+                    }
+                },
+                error  : function (jqXHR, textStatus, errorThrown) {
+                    console.error(textStatus);
+                    clearInterval(Interval_checkNotification);
+                }
+            });
+        }
     </script>
 
 </head>
 <body style="background: url(<?php echo base_url('public/images/bg.gif'); ?>) repeat;">
+<!-- Modal -->
+<div class="modal fade" id="NotificationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

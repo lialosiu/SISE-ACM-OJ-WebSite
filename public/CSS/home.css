@@ -2,6 +2,7 @@
 /* CSS Document */
 
 body {
+    min-width: 800px;
     font-family: "微软雅黑", "MSYH", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
 

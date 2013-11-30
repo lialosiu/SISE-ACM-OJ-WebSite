@@ -3,7 +3,7 @@
  * @var User $CurrentUser
  */
 ?>
-<div id="header-nav" class="collapse navbar-collapse navbar-ex1-collapse">
+<div id="header-nav">
     <ul class="nav nav-pills navbar-left">
         <li <?php if ($this->router->fetch_method() === 'index') echo 'class="active"' ?>><a href="<?php echo base_url(); ?>">首页</a></li>
         <li <?php if ($this->router->fetch_method() === 'listProblem') echo 'class="active"' ?>><a href="<?php echo base_url('home/listProblem'); ?>">问题集</a></li>

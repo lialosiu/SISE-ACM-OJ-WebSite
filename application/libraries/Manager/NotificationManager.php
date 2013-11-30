@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class NotificationManager
+ */
 class NotificationManager
 {
 
@@ -37,6 +40,15 @@ class NotificationManager
     }
 
     /**
+     * @param Notification $thatNotification
+     * @return bool
+     */
+    public static function deleteNotification($thatNotification)
+    {
+        return Notification_Model::deleteNotification($thatNotification);
+    }
+
+    /**
      * @param int $ID
      * @return Notification
      */
@@ -50,8 +62,23 @@ class NotificationManager
      */
     public static function getNotificationList()
     {
-        $thisNotificationList = Notification_Model::getNotificationList();
-        return $thisNotificationList;
+        return Notification_Model::getNotificationList();
+    }
+
+
+    /**
+     * @return string
+     */
+    public static function getNotificationListAsJson()
+    {
+        $thatNotificationList = Notification_Model::getNotificationList();
+
+        $thatNotificationListDataArray = [];
+        foreach ($thatNotificationList->getNotificationArray() as $thisNotification) {
+            /** @var Notification $thisNotification */
+            $thatNotificationListDataArray[] = ['ID' => $thisNotification->getID(), 'Title' => $thisNotification->getTitle(), 'Content' => $thisNotification->getContent()];
+        }
+        return json_encode($thatNotificationListDataArray);
     }
 
 }

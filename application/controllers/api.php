@@ -667,6 +667,8 @@ class Api extends CI_Controller
         }
 
         $thatNotification = NotificationManager::getNotificationByID($this->input->post('ID'));
+        if (!$thatNotification) show_404();
+
         $thatNotification->setTitle($this->input->post('Title'));
         $thatNotification->setContent($this->input->post('Content'));
 
@@ -674,6 +676,32 @@ class Api extends CI_Controller
 
         //不是ajax请求，跳转
         if (!$this->input->is_ajax_request()) redirect(base_url('home/listNotification'));
+    }
+
+    public function deleteNotification($ID = 0)
+    {
+        //检查权限
+        if (!$this->CurrentUser->isAdministrator()) {
+            show_404();
+        }
+
+        //检查参数
+        if (!is_numeric($ID)) {
+            show_404();
+        }
+
+        $thatNotification = NotificationManager::getNotificationByID($ID);
+        if (!$thatNotification) show_404();
+
+        NotificationManager::deleteNotification($thatNotification);
+
+        //不是ajax请求，跳转
+        if (!$this->input->is_ajax_request()) redirect(base_url('home/listNotification'));
+    }
+
+    public function getNotificationListAsJson()
+    {
+        exit(NotificationManager::getNotificationListAsJson());
     }
 
 }

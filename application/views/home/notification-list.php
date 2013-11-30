@@ -31,6 +31,7 @@
                         <?php if (isset($CurrentUser) && $CurrentUser->isAdministrator()): ?>
                             <td>
                                 <a class="btn btn-primary btn-xs" href="<?php echo base_url('home/editNotification/' . $thisNotification->getID()); ?>">编辑</a>
+                                <a class="btn btn-danger btn-xs" href="<?php echo base_url('api/deleteNotification/' . $thisNotification->getID()); ?>">删除</a>
                             </td>
                         <?php endif; ?>
                     </tr>
