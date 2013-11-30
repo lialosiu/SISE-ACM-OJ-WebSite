@@ -2,18 +2,23 @@
 
 class Home extends CI_Controller
 {
+    /** @var User $CurrentUser */
+    private $CurrentUser;
+
     public function __construct()
     {
         parent::__construct();
+        $this->CurrentUser    = UserManager::getCurrentUserBySession();
+        $thatNotificationList = NotificationManager::getNotificationList();
+        $this->load->view('vars', [
+            'CurrentUser'          => $this->CurrentUser,
+            'thatNotificationList' => $thatNotificationList,
+        ]);
     }
 
     public function index()
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
-
-        $this->load->view('home/html-header', [
-            'CurrentUser' => $CurrentUser
-        ]);
+        $this->load->view('home/html-header');
         $this->load->view('home/header');
         $this->load->view('home/homepage');
         $this->load->view('home/footer');
@@ -22,7 +27,6 @@ class Home extends CI_Controller
 
     public function listUser()
     {
-        $CurrentUser   = UserManager::getCurrentUserBySession();
         $thatGroupList = GroupManager::getGroupList();
 
         $showingGroupID = $this->input->get('g');
@@ -31,7 +35,6 @@ class Home extends CI_Controller
         else $thatUserList = UserManager::getUserList();
 
         $this->load->view('home/html-header', [
-            'CurrentUser'    => $CurrentUser,
             'thatUserList'   => $thatUserList,
             'thatGroupList'  => $thatGroupList,
             'showingGroupID' => $showingGroupID
@@ -44,12 +47,10 @@ class Home extends CI_Controller
 
     public function showUser($ID = 0)
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
-        $thatUser    = UserManager::getUserByID($ID);
+        $thatUser = UserManager::getUserByID($ID);
 
         $this->load->view('home/html-header', [
-            'CurrentUser' => $CurrentUser,
-            'thatUser'    => $thatUser
+            'thatUser' => $thatUser
         ]);
         $this->load->view('home/header');
 
@@ -65,17 +66,15 @@ class Home extends CI_Controller
 
     public function editUser($ID = 0)
     {
-        $CurrentUser   = UserManager::getCurrentUserBySession();
         $thatGroupList = GroupManager::getGroupList();
         $thatUser      = UserManager::getUserByID($ID);
 
         //检查权限
-        if (!$CurrentUser->isAdministrator() && $CurrentUser->getID() != $ID) {
+        if (!$this->CurrentUser->isAdministrator() && $this->CurrentUser->getID() != $ID) {
             show_404();
         }
 
         $this->load->view('home/html-header', [
-            'CurrentUser'   => $CurrentUser,
             'thatUser'      => $thatUser,
             'thatGroupList' => $thatGroupList
         ]);
@@ -93,16 +92,14 @@ class Home extends CI_Controller
 
     public function createAGroupUser()
     {
-        $CurrentUser   = UserManager::getCurrentUserBySession();
         $thatGroupList = GroupManager::getGroupList();
 
         //检查权限
-        if (!$CurrentUser->isAdministrator()) {
+        if (!$this->CurrentUser->isAdministrator()) {
             show_404();
         }
 
         $this->load->view('home/html-header', [
-            'CurrentUser'   => $CurrentUser,
             'thatGroupList' => $thatGroupList,
         ]);
         $this->load->view('home/header');
@@ -115,31 +112,23 @@ class Home extends CI_Controller
 
     public function createGroup()
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
-
         //检查权限
-        if (!$CurrentUser->isAdministrator()) {
+        if (!$this->CurrentUser->isAdministrator()) {
             show_404();
         }
 
-        $this->load->view('home/html-header', [
-            'CurrentUser' => $CurrentUser,
-        ]);
+        $this->load->view('home/html-header');
         $this->load->view('home/header');
-
         $this->load->view('home/group-add');
-
         $this->load->view('home/footer');
         $this->load->view('home/html-footer');
     }
 
     public function listProblem()
     {
-        $CurrentUser     = UserManager::getCurrentUserBySession();
         $thatProblemList = ProblemManager::getProblemList();
 
         $this->load->view('home/html-header', [
-            'CurrentUser'     => $CurrentUser,
             'thatProblemList' => $thatProblemList
         ]);
         $this->load->view('home/header');
@@ -150,20 +139,18 @@ class Home extends CI_Controller
 
     public function showProblem($ID = 0)
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
         $thatProblem = ProblemManager::getProblemByID($ID);
 
         $this->load->view('home/html-header', [
-            'CurrentUser' => $CurrentUser,
             'thatProblem' => $thatProblem
         ]);
         $this->load->view('home/header');
 
         //检查权限
         if ($thatProblem->getPasswordHashed() &&
-            !in_array($CurrentUser->getID(), $thatProblem->getPermissibleUsersIDArray()) &&
-            !in_array($CurrentUser->getGroupID(), $thatProblem->getPermissibleGroupsIDArray()) &&
-            !$CurrentUser->isAdministrator()
+            !in_array($this->CurrentUser->getID(), $thatProblem->getPermissibleUsersIDArray()) &&
+            !in_array($this->CurrentUser->getGroupID(), $thatProblem->getPermissibleGroupsIDArray()) &&
+            !$this->CurrentUser->isAdministrator()
         ) {
             if ($this->input->post('Password') === false) {
                 $this->load->view('home/problem-password');
@@ -182,11 +169,9 @@ class Home extends CI_Controller
 
     public function answerProblem($ID = 0)
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
         $thatProblem = ProblemManager::getProblemByID($ID);
 
         $this->load->view('home/html-header', [
-            'CurrentUser' => $CurrentUser,
             'thatProblem' => $thatProblem
         ]);
         $this->load->view('home/header');
@@ -197,7 +182,6 @@ class Home extends CI_Controller
 
     public function addProblem()
     {
-        $CurrentUser     = UserManager::getCurrentUserBySession();
         $thatGroupList   = GroupManager::getGroupList();
         $thatContestList = ContestManager::getContestList();
 
@@ -205,12 +189,11 @@ class Home extends CI_Controller
         if (!$addToContestID || !is_numeric($addToContestID)) $addToContestID = 0;
 
         //检查权限
-        if (!$CurrentUser->isAdministrator()) {
+        if (!$this->CurrentUser->isAdministrator()) {
             show_404();
         }
 
         $this->load->view('home/html-header', [
-            'CurrentUser'     => $CurrentUser,
             'thatGroupList'   => $thatGroupList,
             'thatContestList' => $thatContestList,
             'addToContestID'  => $addToContestID
@@ -223,18 +206,16 @@ class Home extends CI_Controller
 
     public function editProblem($ID = 0)
     {
-        $CurrentUser     = UserManager::getCurrentUserBySession();
         $thatProblem     = ProblemManager::getProblemByID($ID);
         $thatGroupList   = GroupManager::getGroupList();
         $thatContestList = ContestManager::getContestList();
 
         //检查权限
-        if (!$CurrentUser->isAdministrator()) {
+        if (!$this->CurrentUser->isAdministrator()) {
             show_404();
         }
 
         $this->load->view('home/html-header', [
-            'CurrentUser'     => $CurrentUser,
             'thatProblem'     => $thatProblem,
             'thatGroupList'   => $thatGroupList,
             'thatContestList' => $thatContestList
@@ -247,16 +228,14 @@ class Home extends CI_Controller
 
     public function deleteProblem($ID = 0)
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
         $thatProblem = ProblemManager::getProblemByID($ID);
 
         //检查权限
-        if (!$CurrentUser->isAdministrator()) {
+        if (!$this->CurrentUser->isAdministrator()) {
             show_404();
         }
 
         $this->load->view('home/html-header', [
-            'CurrentUser' => $CurrentUser,
             'thatProblem' => $thatProblem
         ]);
         $this->load->view('home/header');
@@ -267,11 +246,9 @@ class Home extends CI_Controller
 
     public function listContest()
     {
-        $CurrentUser     = UserManager::getCurrentUserBySession();
         $thatContestList = ContestManager::getContestList();
 
         $this->load->view('home/html-header', [
-            'CurrentUser'     => $CurrentUser,
             'thatContestList' => $thatContestList
         ]);
         $this->load->view('home/header');
@@ -282,20 +259,18 @@ class Home extends CI_Controller
 
     public function showContest($ID = 0)
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
         $thatContest = ContestManager::getContestByID($ID);
 
         $this->load->view('home/html-header', [
-            'CurrentUser' => $CurrentUser,
             'thatContest' => $thatContest
         ]);
         $this->load->view('home/header');
 
         //检查权限
-        if ($CurrentUser->isAdministrator() || !$thatContest->getPasswordHashed()) {
+        if ($this->CurrentUser->isAdministrator() || !$thatContest->getPasswordHashed()) {
             $this->load->view('home/contest-show');
         } else if ($thatContest->isRunning()) {
-            if (in_array($CurrentUser->getID(), $thatContest->getPermissibleUsersIDArray()) || in_array($CurrentUser->getGroupID(), $thatContest->getPermissibleGroupsIDArray())) {
+            if (in_array($this->CurrentUser->getID(), $thatContest->getPermissibleUsersIDArray()) || in_array($this->CurrentUser->getGroupID(), $thatContest->getPermissibleGroupsIDArray())) {
                 $this->load->view('home/contest-show');
             } else if ($this->input->post('Password')) {
                 if (do_hash($this->input->post('Password')) === $thatContest->getPasswordHashed()) {
@@ -316,16 +291,14 @@ class Home extends CI_Controller
 
     public function addContest()
     {
-        $CurrentUser   = UserManager::getCurrentUserBySession();
         $thatGroupList = GroupManager::getGroupList();
 
         //检查权限
-        if (!$CurrentUser->isAdministrator()) {
+        if (!$this->CurrentUser->isAdministrator()) {
             show_404();
         }
 
         $this->load->view('home/html-header', [
-            'CurrentUser'   => $CurrentUser,
             'thatGroupList' => $thatGroupList
         ]);
         $this->load->view('home/header');
@@ -336,10 +309,8 @@ class Home extends CI_Controller
 
     public function editContest($ID = 0)
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
-
         //检查权限
-        if (!$CurrentUser->isAdministrator()) {
+        if (!$this->CurrentUser->isAdministrator()) {
             show_404();
         }
 
@@ -352,7 +323,6 @@ class Home extends CI_Controller
         $thatContest   = ContestManager::getContestByID($ID);
 
         $this->load->view('home/html-header', [
-            'CurrentUser'   => $CurrentUser,
             'thatGroupList' => $thatGroupList,
             'thatContest'   => $thatContest
         ]);
@@ -364,12 +334,10 @@ class Home extends CI_Controller
 
     public function rankContest($ID)
     {
-        $CurrentUser  = UserManager::getCurrentUserBySession();
         $thatContest  = ContestManager::getContestByID($ID);
         $thatRankData = Rank::byContestID($ID);
 
         $this->load->view('home/html-header', [
-            'CurrentUser'  => $CurrentUser,
             'thatContest'  => $thatContest,
             'thatRankData' => $thatRankData
         ]);
@@ -383,8 +351,6 @@ class Home extends CI_Controller
 
     public function listAnswer()
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
-
         $thatAnswerList = null;
         if ($this->input->get('c') && is_numeric($this->input->get('c'))) {
             $thatContest = ContestManager::getContestByID($this->input->get('c'));
@@ -401,7 +367,6 @@ class Home extends CI_Controller
         }
 
         $this->load->view('home/html-header', [
-            'CurrentUser'    => $CurrentUser,
             'thatAnswerList' => $thatAnswerList
         ]);
         $this->load->view('home/header');
@@ -412,22 +377,20 @@ class Home extends CI_Controller
 
     public function showAnswer($ID = 0)
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
-        $thatAnswer  = AnswerManager::getAnswerByID($ID);
+        $thatAnswer = AnswerManager::getAnswerByID($ID);
 
         if (!$thatAnswer) show_404();
 
         $thatProblem = $thatAnswer->getProblem();
 
         $this->load->view('home/html-header', [
-            'CurrentUser' => $CurrentUser,
             'thatAnswer'  => $thatAnswer,
             'thatProblem' => $thatProblem
         ]);
         $this->load->view('home/header');
 
         //检查权限
-        if (($thatAnswer->getUserID() !== $CurrentUser->getID() && !$CurrentUser->isAdministrator())) {
+        if (($thatAnswer->getUserID() !== $this->CurrentUser->getID() && !$this->CurrentUser->isAdministrator())) {
             $this->load->view('home/alert-danger', ['alertDanger' => '无权限']);
         } else {
             $this->load->view('home/answer-show');
@@ -439,11 +402,9 @@ class Home extends CI_Controller
 
     public function rank()
     {
-        $CurrentUser  = UserManager::getCurrentUserBySession();
         $thatRankData = Rank::all();
 
         $this->load->view('home/html-header', [
-            'CurrentUser'  => $CurrentUser,
             'thatRankData' => $thatRankData
         ]);
         $this->load->view('home/header');
@@ -454,14 +415,7 @@ class Home extends CI_Controller
 
     public function listNotification()
     {
-        $CurrentUser          = UserManager::getCurrentUserBySession();
-        $thatNotificationList = NotificationManager::getNotificationList();
-
-        $this->load->view('home/html-header', [
-            'CurrentUser'          => $CurrentUser,
-            'thatNotificationList' => $thatNotificationList
-        ]);
-
+        $this->load->view('home/html-header');
         $this->load->view('home/header');
         $this->load->view('home/notification-list');
         $this->load->view('home/footer');
@@ -470,16 +424,12 @@ class Home extends CI_Controller
 
     public function addNotification()
     {
-        $CurrentUser = UserManager::getCurrentUserBySession();
-
         //检查权限
-        if (!$CurrentUser->isAdministrator()) {
+        if (!$this->CurrentUser->isAdministrator()) {
             show_404();
         }
 
-        $this->load->view('home/html-header', [
-            'CurrentUser' => $CurrentUser,
-        ]);
+        $this->load->view('home/html-header');
         $this->load->view('home/header');
         $this->load->view('home/notification-add');
         $this->load->view('home/footer');
@@ -489,18 +439,16 @@ class Home extends CI_Controller
 
     public function editNotification($ID = 0)
     {
-        $CurrentUser      = UserManager::getCurrentUserBySession();
         $thatNotification = NotificationManager::getNotificationByID($ID);
 
         if (!$thatNotification) show_404();
 
         //检查权限
-        if (!$CurrentUser->isAdministrator()) {
+        if (!$this->CurrentUser->isAdministrator()) {
             show_404();
         }
 
         $this->load->view('home/html-header', [
-            'CurrentUser'      => $CurrentUser,
             'thatNotification' => $thatNotification,
         ]);
         $this->load->view('home/header');
