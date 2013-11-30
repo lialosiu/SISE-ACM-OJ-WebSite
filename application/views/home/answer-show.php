@@ -29,8 +29,8 @@
             </p>
         </div>
 
-    <?php /** @var AnswerList $thisAnswerList */
-    $thisAnswerList = $thatProblem->getAnswerList(); ?>
+        <?php /** @var AnswerList $thisAnswerList */
+        $thisAnswerList = $thatProblem->getAnswerList(); ?>
 
         <div class="text-center">
             <p>
@@ -118,20 +118,20 @@
             </div>
         </div>
 
-    <?php if ($thatAnswer->getInfo()): ?>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">详细信息</h3>
-                    </div>
-                    <div class="panel-body">
-                        <pre class="brush: plain"><?php echo htmlspecialchars($thatAnswer->getInfo()); ?></pre>
+        <?php if ($thatAnswer->getInfo()): ?>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">详细信息</h3>
+                        </div>
+                        <div class="panel-body">
+                            <pre class="brush: plain"><?php echo htmlspecialchars($thatAnswer->getInfo()); ?></pre>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    <?php endif; ?>
+        <?php endif; ?>
 
         <div class="row">
             <div class="panel panel-primary">
@@ -152,30 +152,6 @@
                             echo 'class="brush: plain"';
                             break;
                     } ?>><?php echo htmlspecialchars($thatAnswer->getSourceCode()); ?></pre>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">输入数据</h3>
-                    </div>
-                    <div class="panel-body">
-                        <pre class="brush: plain"><?php echo htmlspecialchars($thatAnswer->getInputData()); ?></pre>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">输出数据</h3>
-                    </div>
-                    <div class="panel-body">
-                        <pre class="brush: plain"><?php echo htmlspecialchars($thatAnswer->getOutputData()); ?></pre>
-                    </div>
                 </div>
             </div>
         </div>

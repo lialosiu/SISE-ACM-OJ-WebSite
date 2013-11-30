@@ -27,14 +27,6 @@ class Answer
      */
     private $SourceCode = '';
     /**
-     * @var string
-     */
-    private $InputData = '';
-    /**
-     * @var string
-     */
-    private $OutputData = '';
-    /**
      * @var int
      */
     private $UsedTime = 0;
@@ -69,8 +61,6 @@ class Answer
         $UserID = 0,
         $LanguageCode = 0,
         $SourceCode = '',
-        $InputData = '',
-        $OutputData = '',
         $UsedTime = 0,
         $UsedMemory = 0,
         $StatusCode = 0,
@@ -83,8 +73,6 @@ class Answer
         $this->ProblemID  = $ProblemID;
         $this->UserID     = $UserID;
         $this->SourceCode = $SourceCode;
-        $this->InputData  = $InputData;
-        $this->OutputData = $OutputData;
         $this->UsedTime   = $UsedTime;
         $this->UsedMemory = $UsedMemory;
         $this->Info       = $Info;
@@ -166,14 +154,6 @@ class Answer
     /**
      * @return string
      */
-    public function getInputData()
-    {
-        return $this->InputData;
-    }
-
-    /**
-     * @return string
-     */
     public function getLanguage()
     {
         return $this->Language;
@@ -193,14 +173,6 @@ class Answer
     public function getMarkedTime()
     {
         return $this->MarkedTime;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOutputData()
-    {
-        return $this->OutputData;
     }
 
     /**
