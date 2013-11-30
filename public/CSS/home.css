@@ -87,7 +87,8 @@ table#problem-list tbody tr:nth-child(odd),
 table#contest-list tbody tr:nth-child(odd),
 table#answer-list tbody tr:nth-child(odd),
 table#user-list tbody tr:nth-child(odd),
-table#rank-list tbody tr:nth-child(odd) {
+table#rank-list tbody tr:nth-child(odd),
+table#notification-list tbody tr:nth-child(odd) {
     background: rgb(237, 255, 209);
 }
 
@@ -95,7 +96,8 @@ table#problem-list tbody tr:nth-child(even),
 table#contest-list tbody tr:nth-child(even),
 table#answer-list tbody tr:nth-child(even),
 table#user-list tbody tr:nth-child(even),
-table#rank-list tbody tr:nth-child(even) {
+table#rank-list tbody tr:nth-child(even),
+table#notification-list tbody tr:nth-child(even) {
     background: rgb(223, 255, 245);
 }
 
@@ -103,7 +105,8 @@ table#problem-list tbody tr:hover,
 table#contest-list tbody tr:hover,
 table#answer-list tbody tr:hover,
 table#user-list tbody tr:hover,
-table#rank-list tbody tr:hover {
+table#rank-list tbody tr:hover,
+table#notification-list tbody tr:hover {
     background: rgb(255, 238, 238);
     cursor: pointer;
 }

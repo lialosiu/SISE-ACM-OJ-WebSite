@@ -8,23 +8,7 @@
 ?>
 <script>
     $(document).ready(function () {
-        $('table#problem-list').dataTable({
-            "oLanguage"      : {
-                "sLengthMenu"  : "每页显示 _MENU_ 条结果",
-                "sZeroRecords" : "无数据",
-                "sInfo"        : "_START_ ~ _END_ (共 _TOTAL_ 条) ",
-                "sInfoEmpty"   : "无数据",
-                "sInfoFiltered": "(从 _MAX_ 条中过滤)",
-                "sSearch"      : "搜索：",
-                "oPaginate"    : {
-                    "sFirst"   : "<<",
-                    "sPrevious": "<",
-                    "sNext"    : ">",
-                    "sLast"    : ">>"
-                }
-            },
-            "sPaginationType": "full_numbers"
-        });
+        $('table#problem-list').dataTable();
     });
 </script>
 <div id="content">

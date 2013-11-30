@@ -64,12 +64,15 @@ $autoload['libraries'] = array(
     'Manager/ProblemManager',
     'Manager/UserManager',
     'Manager/GroupManager',
+    'Manager/NotificationManager',
     'Problem/Problem',
     'Problem/ProblemList',
     'User/User',
     'User/UserList',
     'Group/Group',
     'Group/GroupList',
+    'Notification/Notification',
+    'Notification/NotificationList',
     'Rank'
 );
 
@@ -134,6 +137,7 @@ $autoload['model'] = array(
     "Problem_Model",
     "User_Model",
     "Group_Model",
+    "Notification_Model"
 );
 
 

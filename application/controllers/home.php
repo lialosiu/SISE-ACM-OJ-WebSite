@@ -452,5 +452,61 @@ class Home extends CI_Controller
         $this->load->view('home/html-footer');
     }
 
+    public function listNotification()
+    {
+        $CurrentUser          = UserManager::getCurrentUserBySession();
+        $thatNotificationList = NotificationManager::getNotificationList();
+
+        $this->load->view('home/html-header', [
+            'CurrentUser'          => $CurrentUser,
+            'thatNotificationList' => $thatNotificationList
+        ]);
+
+        $this->load->view('home/header');
+        $this->load->view('home/notification-list');
+        $this->load->view('home/footer');
+        $this->load->view('home/html-footer');
+    }
+
+    public function addNotification()
+    {
+        $CurrentUser = UserManager::getCurrentUserBySession();
+
+        //检查权限
+        if (!$CurrentUser->isAdministrator()) {
+            show_404();
+        }
+
+        $this->load->view('home/html-header', [
+            'CurrentUser' => $CurrentUser,
+        ]);
+        $this->load->view('home/header');
+        $this->load->view('home/notification-add');
+        $this->load->view('home/footer');
+        $this->load->view('home/html-footer');
+    }
+
+
+    public function editNotification($ID = 0)
+    {
+        $CurrentUser      = UserManager::getCurrentUserBySession();
+        $thatNotification = NotificationManager::getNotificationByID($ID);
+
+        if (!$thatNotification) show_404();
+
+        //检查权限
+        if (!$CurrentUser->isAdministrator()) {
+            show_404();
+        }
+
+        $this->load->view('home/html-header', [
+            'CurrentUser'      => $CurrentUser,
+            'thatNotification' => $thatNotification,
+        ]);
+        $this->load->view('home/header');
+        $this->load->view('home/notification-edit');
+        $this->load->view('home/footer');
+        $this->load->view('home/html-footer');
+    }
 
 }

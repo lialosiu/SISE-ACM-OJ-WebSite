@@ -622,4 +622,54 @@ class Api extends CI_Controller
         }
     }
 
+    public function addNotification()
+    {
+        //检查权限
+        if (!$this->CurrentUser->isAdministrator()) {
+            show_404();
+        }
+
+        //检查参数
+        if (
+            $this->input->post('Title') === false ||
+            $this->input->post('Content') === false ||
+            !$this->input->post('Title')
+        ) {
+            show_404();
+        }
+
+        NotificationManager::createNotification($this->input->post('Title'), $this->input->post('Content'));
+
+        //不是ajax请求，跳转
+        if (!$this->input->is_ajax_request()) redirect(base_url('home/listNotification'));
+    }
+
+    public function editNotification()
+    {
+        //检查权限
+        if (!$this->CurrentUser->isAdministrator()) {
+            show_404();
+        }
+
+        //检查参数
+        if (
+            $this->input->post('ID') === false ||
+            $this->input->post('Title') === false ||
+            $this->input->post('Content') === false ||
+            !is_numeric($this->input->post('ID')) ||
+            !$this->input->post('Title')
+        ) {
+            show_404();
+        }
+
+        $thatNotification = NotificationManager::getNotificationByID($this->input->post('ID'));
+        $thatNotification->setTitle($this->input->post('Title'));
+        $thatNotification->setContent($this->input->post('Content'));
+
+        NotificationManager::updateNotification($thatNotification);
+
+        //不是ajax请求，跳转
+        if (!$this->input->is_ajax_request()) redirect(base_url('home/listNotification'));
+    }
+
 }
