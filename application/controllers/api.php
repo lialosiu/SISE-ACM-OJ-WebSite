@@ -135,19 +135,23 @@ class Api extends CI_Controller
             show_error('大小反了→_→');
         }
 
-        $newUserData = [];
+        $newUserData    = [];
+        $newUserDataCsv = 'ID,UserName,Password';
 
         for ($i = $this->input->post('StartNumber'); $i <= $this->input->post('EndNumber'); $i++) {
             $username = $this->input->post('UsernamePre') . str_pad($i, strlen($this->input->post('EndNumber')), "0", STR_PAD_LEFT);
             $password = sprintf('%05d', rand(0, 99999));
 
             //用户注册
-            $thatUser = UserManager::addUser($username, $password, $this->input->post('GroupID'));
+            $thatUser = UserManager::addUser($username, $username, $password, $this->input->post('GroupID'));
 
             $newUserData[] = ['ID' => $thatUser->getID(), 'Username' => $thatUser->getUsername(), 'Password' => $password];
+
+            $newUserDataCsv .= $thatUser->getID() . ',' . $thatUser->getUsername() . ',' . $password . '\n';
         }
 
-        var_dump($newUserData);
+        $this->load->helper('download');
+        force_download('NewUsersData.csv', $newUserDataCsv);
     }
 
     public function createGroup()

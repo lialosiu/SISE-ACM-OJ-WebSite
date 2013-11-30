@@ -54,12 +54,13 @@ class UserManager
 
     /**
      * @param string $Username
+     * @param string $Nickname
      * @param string $Password
      * @param int $GroupID
      * @throws Exception
      * @return \User
      */
-    public static function addUser($Username, $Password, $GroupID)
+    public static function addUser($Username, $Nickname, $Password, $GroupID)
     {
         //判断用户名是否存在
         if (self::IsUsernameExist($Username)) {
@@ -72,7 +73,7 @@ class UserManager
         $thatUser = new User(
             0,
             $Username,
-            $Username,
+            $Nickname,
             do_hash(do_hash($Password) . $salt),
             $salt,
             $GroupID
