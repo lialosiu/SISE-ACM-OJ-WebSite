@@ -348,9 +348,15 @@ class Home extends CI_Controller
         $this->load->view('home/html-footer');
     }
 
-
-    public function listAnswer()
+    public function listAnswer($Page = 1, $Limit = _DefaultRowLimit_)
     {
+        if (!is_numeric($Page) || !is_numeric($Limit) || !$Page > 0 || !$Limit > 0) {
+            $Page  = 1;
+            $Limit = _DefaultRowLimit_;
+        }
+
+        $this->load->library('pagination');
+
         $thatAnswerList = null;
         if ($this->input->get('c') && is_numeric($this->input->get('c'))) {
             $thatContest = ContestManager::getContestByID($this->input->get('c'));
@@ -360,14 +366,40 @@ class Home extends CI_Controller
                     /** @var Problem $thisProblem */
                     $thatProblemIDArray[] = $thisProblem->getID();
                 }
-                $thatAnswerList = AnswerManager::getAnswerListByProblemIDArray($thatProblemIDArray);
+                $thatAnswerList = AnswerManager::getAnswerListByProblemIDArray($thatProblemIDArray, $Page, $Limit);
             }
         } else {
-            $thatAnswerList = AnswerManager::getAnswerList();
+            $thatAnswerList = AnswerManager::getAnswerList($Page, $Limit);
         }
 
+        $this->pagination->initialize([
+            'base_url'         => base_url('home/listAnswer'),
+            'total_rows'       => $thatAnswerList->getCountWithFilter(),
+            'per_page'         => $Limit,
+            'use_page_numbers' => true,
+            'full_tag_open'    => '<ul class="pagination">',
+            'full_tag_close'   => '</ul>',
+            'num_tag_open'     => '<li>',
+            'num_tag_close'    => '</li>',
+            'cur_tag_open'     => '<li class="active"><a href="#">',
+            'cur_tag_close'    => '</a></li>',
+            'prev_link'        => '&lt;',
+            'prev_tag_open'    => '<li>',
+            'prev_tag_close'   => '</li>',
+            'next_link'        => '&gt;',
+            'next_tag_open'    => '<li>',
+            'next_tag_close'   => '</li>',
+            'first_link'       => '&lt;&lt;',
+            'first_tag_open'   => '<li>',
+            'first_tag_close'  => '</li>',
+            'last_link'        => '&gt;&gt;',
+            'last_tag_open'    => '<li>',
+            'last_tag_close'   => '</li>',
+        ]);
+
         $this->load->view('home/html-header', [
-            'thatAnswerList' => $thatAnswerList
+            'thatAnswerList'     => $thatAnswerList,
+            'thatPaginationHtml' => $this->pagination->create_links()
         ]);
         $this->load->view('home/header');
         $this->load->view('home/answer-list');

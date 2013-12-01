@@ -56,48 +56,46 @@ class AnswerManager
     }
 
     /**
-     * @return AnswerList
-     */
-    public static function getAnswerList()
-    {
-        return Answer_Model::getAnswerList();
-    }
-
-    /**
-     * @param int $ProblemID
-     * @return AnswerList
-     */
-    public static function getAnswerListByProblemID($ProblemID)
-    {
-        return Answer_Model::getAnswerListByProblemID($ProblemID);
-    }
-
-    /**
-     * @param array $ProblemIDArray
-     * @return AnswerList
-     */
-    public static function getAnswerListByProblemIDArray($ProblemIDArray)
-    {
-        return Answer_Model::getAnswerListByProblemIDArray($ProblemIDArray);
-    }
-
-    /**
-     * @param int $UserID
-     * @return AnswerList
-     */
-    public static function getAnswerListByUserID($UserID)
-    {
-        return Answer_Model::getAnswerListByUserID($UserID);
-    }
-
-    /**
      * @param int $Page
      * @param int $Limit
      * @return AnswerList
      */
-    public static function getAnswerListByPageAndLimit($Page, $Limit)
+    public static function getAnswerList($Page = 0, $Limit = 0)
     {
-        return Answer_Model::getAnswerListByPageAndLimit($Page, $Limit);
+        return Answer_Model::getAnswerList($Page, $Limit);
+    }
+
+    /**
+     * @param int $ProblemID
+     * @param int $Page
+     * @param int $Limit
+     * @return AnswerList
+     */
+    public static function getAnswerListByProblemID($ProblemID, $Page = 0, $Limit = 0)
+    {
+        return Answer_Model::getAnswerListByProblemID($ProblemID, $Page, $Limit);
+    }
+
+    /**
+     * @param array $ProblemIDArray
+     * @param int $Page
+     * @param int $Limit
+     * @return AnswerList
+     */
+    public static function getAnswerListByProblemIDArray($ProblemIDArray, $Page = 0, $Limit = 0)
+    {
+        return Answer_Model::getAnswerListByProblemIDArray($ProblemIDArray, $Page, $Limit);
+    }
+
+    /**
+     * @param int $UserID
+     * @param int $Page
+     * @param int $Limit
+     * @return AnswerList
+     */
+    public static function getAnswerListByUserID($UserID, $Page = 0, $Limit = 0)
+    {
+        return Answer_Model::getAnswerListByUserID($UserID, $Page, $Limit);
     }
 
     /**

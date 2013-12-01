@@ -23,9 +23,9 @@ class Rank
             foreach ($thatProblemList->getProblemArray() as $thisProblem) {
                 /** @var Problem $thisProblem */;
                 $thisProblemData = [
-                    'ID'               => $thisProblem->getID(),
-                    'CountSubmit'      => 0,
-                    'Accepted'         => false,
+                    'ID'          => $thisProblem->getID(),
+                    'CountSubmit' => 0,
+                    'Accepted'    => false,
                 ];
 
                 foreach ($thatAnswerList->getAnswerArray() as $thisAnswer) {
@@ -35,7 +35,7 @@ class Rank
                             $thisUserData['CountSubmit']++;
                             $thisProblemData['CountSubmit']++;
                             if ($thisAnswer->getStatusCode() == _StatusCode_Accepted) {
-                                $thisProblemData['Accepted']         = true;
+                                $thisProblemData['Accepted'] = true;
                             }
                         } else {
                             continue;
@@ -132,8 +132,8 @@ class Rank
         {
             if ($a['CountAccepted'] < $b['CountAccepted']) {
                 return true;
-            } else if ($a['CountAccepted'] = $b['CountAccepted']) {
-                if ($a['UsedTime'] < $b['UsedTime']) {
+            } else if ($a['CountAccepted'] == $b['CountAccepted']) {
+                if ($a['UsedTime'] > $b['UsedTime']) {
                     return true;
                 } else {
                     return false;

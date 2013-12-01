@@ -1,11 +1,19 @@
 <?php
 
+/**
+ * Class AnswerList
+ */
 class AnswerList
 {
     /**
      * @var array
      */
     private $AnswerArray = [];
+
+    /**
+     * @var int
+     */
+    private $CountWithFilter = 0;
 
     /**
      * @var int
@@ -76,6 +84,14 @@ class AnswerList
      * @var int
      */
     private $CountOutputLimitExceeded = 0;
+
+    /**
+     * @param int $CountWithFilter
+     */
+    function __construct($CountWithFilter = 0)
+    {
+        $this->CountWithFilter = $CountWithFilter;
+    }
 
     /**
      * @param Answer $thatAnswer
@@ -272,6 +288,14 @@ class AnswerList
     public function getCountUnknownStatus()
     {
         return $this->CountUnknownStatus;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountWithFilter()
+    {
+        return $this->CountWithFilter;
     }
 
     /**

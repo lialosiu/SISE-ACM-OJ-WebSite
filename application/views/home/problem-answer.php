@@ -3,9 +3,26 @@
  * @var Problem $thatProblem
  */
 ?>
+<script>
+    $(document).ready(function () {
+        $('form#problem-answer').submit(function (e) {
+            e.preventDefault();
+            $.post('<?php echo base_url('api/answerProblem'); ?>',
+                {
+                    'ID'          :<?php echo $thatProblem->getID(); ?>,
+                    'LanguageCode': $(this).find('#Language').val(),
+                    'SourceCode'  : encodeURIComponent($(this).find('#SourceCode').val())
+                },
+                function () {
+                    location.href = '<?php echo base_url('home/listAnswer'); ?>';
+                }
+            );
+        });
+    });
+</script>
 <div id="content">
     <?php if (isset ($thatProblem)) : ?>
-        <form method="post" action="<?php echo base_url('api/answerProblem'); ?>">
+        <form id="problem-answer" method="post" action="<?php echo base_url('api/answerProblem'); ?>">
             <input type="hidden" name="ID" value="<?php echo $thatProblem->getID(); ?>"/>
 
             <div class="text-center">

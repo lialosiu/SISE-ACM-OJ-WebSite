@@ -234,7 +234,7 @@ class Api extends CI_Controller
         $CurrentUser  = $this->CurrentUser;
         $thatProblem  = ProblemManager::getProblemByID($this->input->post('ID'));
         $LanguageCode = $this->input->post('LanguageCode');
-        $SourceCode   = $this->input->post('SourceCode');
+        $SourceCode   = ($this->input->is_ajax_request()) ? urldecode($this->input->post('SourceCode')) : $this->input->post('SourceCode');
 
         if ($thatProblem->getContestID() != 0) {
             $thatContest = ContestManager::getContestByID($thatProblem->getContestID());

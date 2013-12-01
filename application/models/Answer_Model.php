@@ -18,6 +18,7 @@ class Answer_Model extends CI_Model
         $CI->db->select('answer.*');
         $CI->db->from('answer');
         $CI->db->where('answer.ID', $ID);
+        $CI->db->order_by('answer.ID', 'desc');
         $query = $CI->db->get();
         $row   = $query->row();
         if ($row) {
@@ -41,19 +42,23 @@ class Answer_Model extends CI_Model
 
 
     /**
+     * @param int $Page
+     * @param int $Limit
      * @return AnswerList
      */
-    public static function getAnswerList()
+    public static function getAnswerList($Page = 0, $Limit = 0)
     {
         /** @var CI $CI */
         $CI =& get_instance();
+
+        $thatAnswerList = new AnswerList($CI->db->count_all('answer'));
+
         $CI->db->select('answer.*');
         $CI->db->from('answer');
+        $CI->db->order_by('answer.ID', 'desc');
+        if ($Page > 0 && $Limit > 0) $CI->db->limit($Limit, ($Page - 1) * $Limit);
         $query  = $CI->db->get();
         $result = $query->result();
-
-        $thisAnswerList = new AnswerList();
-
         foreach ($result as $row) {
             $thatAnswer = new Answer(
                 $row->ID,
@@ -68,28 +73,36 @@ class Answer_Model extends CI_Model
                 $row->SubmitTime,
                 $row->MarkedTime
             );
-            $thisAnswerList->addAnswer($thatAnswer);
+            $thatAnswerList->addAnswer($thatAnswer);
         }
 
-        return $thisAnswerList;
+        return $thatAnswerList;
     }
 
     /**
      * @param int $UserID
+     * @param int $Page
+     * @param int $Limit
      * @return AnswerList
      */
-    public static function getAnswerListByUserID($UserID)
+    public static function getAnswerListByUserID($UserID, $Page = 0, $Limit = 0)
     {
         /** @var CI $CI */
         $CI =& get_instance();
+
+        $CI->db->from('answer');
+        $CI->db->where('answer.UserID', $UserID);
+        $countWithFilter = $CI->db->count_all_results();
+
+        $thatAnswerList = new AnswerList($countWithFilter);
+
         $CI->db->select('answer.*');
         $CI->db->from('answer');
         $CI->db->where('answer.UserID', $UserID);
+        $CI->db->order_by('answer.ID', 'desc');
+        if ($Page > 0 && $Limit > 0) $CI->db->limit($Limit, ($Page - 1) * $Limit);
         $query  = $CI->db->get();
         $result = $query->result();
-
-        $thisAnswerList = new AnswerList();
-
         foreach ($result as $row) {
             $thatAnswer = new Answer(
                 $row->ID,
@@ -104,104 +117,37 @@ class Answer_Model extends CI_Model
                 $row->SubmitTime,
                 $row->MarkedTime
             );
-            $thisAnswerList->addAnswer($thatAnswer);
+            $thatAnswerList->addAnswer($thatAnswer);
         }
 
-        return $thisAnswerList;
+        return $thatAnswerList;
     }
 
 
     /**
      * @param int $ProblemID
-     * @return AnswerList
-     */
-    public static function getAnswerListByProblemID($ProblemID)
-    {
-        /** @var CI $CI */
-        $CI =& get_instance();
-        $CI->db->select('answer.*');
-        $CI->db->from('answer');
-        $CI->db->where('answer.ProblemID', $ProblemID);
-        $query  = $CI->db->get();
-        $result = $query->result();
-
-        $thisAnswerList = new AnswerList();
-
-        foreach ($result as $row) {
-            $thatAnswer = new Answer(
-                $row->ID,
-                $row->ProblemID,
-                $row->UserID,
-                $row->LanguageCode,
-                $row->SourceCode,
-                $row->UsedTime,
-                $row->UsedMemory,
-                $row->StatusCode,
-                $row->Info,
-                $row->SubmitTime,
-                $row->MarkedTime
-            );
-            $thisAnswerList->addAnswer($thatAnswer);
-        }
-
-        return $thisAnswerList;
-    }
-
-    /**
-     * @param array $ProblemIDArray
-     * @return AnswerList
-     */
-    public static function getAnswerListByProblemIDArray($ProblemIDArray)
-    {
-        /** @var CI $CI */
-        $CI =& get_instance();
-        $CI->db->select('answer.*');
-        $CI->db->from('answer');
-        $CI->db->where('answer.ProblemID');
-        foreach ($ProblemIDArray as $thisProblemID) {
-            $CI->db->or_where('answer.ProblemID', $thisProblemID);
-        }
-        $query  = $CI->db->get();
-        $result = $query->result();
-
-        $thisAnswerList = new AnswerList();
-
-        foreach ($result as $row) {
-            $thatAnswer = new Answer(
-                $row->ID,
-                $row->ProblemID,
-                $row->UserID,
-                $row->LanguageCode,
-                $row->SourceCode,
-                $row->UsedTime,
-                $row->UsedMemory,
-                $row->StatusCode,
-                $row->Info,
-                $row->SubmitTime,
-                $row->MarkedTime
-            );
-            $thisAnswerList->addAnswer($thatAnswer);
-        }
-
-        return $thisAnswerList;
-    }
-
-    /**
      * @param int $Page
      * @param int $Limit
      * @return AnswerList
      */
-    public static function getAnswerListByPageAndLimit($Page, $Limit)
+    public static function getAnswerListByProblemID($ProblemID, $Page = 0, $Limit = 0)
     {
         /** @var CI $CI */
         $CI =& get_instance();
+
+        $CI->db->from('answer');
+        $CI->db->where('answer.ProblemID', $ProblemID);
+        $countWithFilter = $CI->db->count_all_results();
+
+        $thatAnswerList = new AnswerList($countWithFilter);
+
         $CI->db->select('answer.*');
         $CI->db->from('answer');
-        $CI->db->limit($Limit, ($Page - 1) * $Limit);
+        $CI->db->where('answer.ProblemID', $ProblemID);
+        $CI->db->order_by('answer.ID', 'desc');
+        if ($Page > 0 && $Limit > 0) $CI->db->limit($Limit, ($Page - 1) * $Limit);
         $query  = $CI->db->get();
         $result = $query->result();
-
-        $thisAnswerList = new AnswerList();
 
         foreach ($result as $row) {
             $thatAnswer = new Answer(
@@ -217,10 +163,59 @@ class Answer_Model extends CI_Model
                 $row->SubmitTime,
                 $row->MarkedTime
             );
-            $thisAnswerList->addAnswer($thatAnswer);
+            $thatAnswerList->addAnswer($thatAnswer);
         }
 
-        return $thisAnswerList;
+        return $thatAnswerList;
+    }
+
+    /**
+     * @param array $ProblemIDArray
+     * @param int $Page
+     * @param int $Limit
+     * @return AnswerList
+     */
+    public static function getAnswerListByProblemIDArray($ProblemIDArray, $Page = 0, $Limit = 0)
+    {
+        /** @var CI $CI */
+        $CI =& get_instance();
+
+        $CI->db->from('answer');
+        foreach ($ProblemIDArray as $thisProblemID) {
+            $CI->db->or_where('answer.ProblemID', $thisProblemID);
+        }
+        $countWithFilter = $CI->db->count_all_results();
+
+        $thatAnswerList = new AnswerList($countWithFilter);
+
+        $CI->db->select('answer.*');
+        $CI->db->from('answer');
+        foreach ($ProblemIDArray as $thisProblemID) {
+            $CI->db->or_where('answer.ProblemID', $thisProblemID);
+        }
+        $CI->db->order_by('answer.ID', 'desc');
+        if ($Page > 0 && $Limit > 0) $CI->db->limit($Limit, ($Page - 1) * $Limit);
+        $query  = $CI->db->get();
+        $result = $query->result();
+
+        foreach ($result as $row) {
+            $thatAnswer = new Answer(
+                $row->ID,
+                $row->ProblemID,
+                $row->UserID,
+                $row->LanguageCode,
+                $row->SourceCode,
+                $row->UsedTime,
+                $row->UsedMemory,
+                $row->StatusCode,
+                $row->Info,
+                $row->SubmitTime,
+                $row->MarkedTime
+            );
+            $thatAnswerList->addAnswer($thatAnswer);
+        }
+
+        return $thatAnswerList;
     }
 
     /**
@@ -278,7 +273,6 @@ class Answer_Model extends CI_Model
         else
             return null;
     }
-
 
     /**
      * @param Answer $thatAnswer

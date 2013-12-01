@@ -19,6 +19,8 @@ define('_LanguageCode_C', 1);
 define('_LanguageCode_CPP', 2);
 define('_LanguageCode_Java', 3);
 
+define('_DefaultRowLimit_', 15);
+
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes

@@ -83,8 +83,11 @@ h1, h2, h3 {
     overflow: hidden;
 }
 
-.panel-heading label, .panel-footer label {
-    margin-bottom: 0;
+.panel-heading .pagination {
+    margin: 0;
+}
+.panel-footer .pagination {
+    margin: 0;
 }
 
 table#problem-list tbody tr:nth-child(odd),
