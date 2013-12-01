@@ -150,7 +150,7 @@ class Contest_Model extends CI_Model
      * @param Contest $thatContest
      * @return bool
      */
-    public static function deleteProblem($thatContest)
+    public static function deleteContest($thatContest)
     {
         /** @var CI $CI */
         $CI =& get_instance();
@@ -163,6 +163,5 @@ class Contest_Model extends CI_Model
         else
             return false;
     }
-
 
 }

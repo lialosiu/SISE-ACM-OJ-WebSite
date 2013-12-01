@@ -36,7 +36,7 @@
                         <td><?php echo $thisContest->getStatus(); ?></td>
                         <td>
                             <a class="btn btn-primary btn-xs" href="<?php echo base_url('home/rankContest/' . $thisContest->getID()); ?>">排行榜</a>
-                            <a class="btn btn-primary btn-xs" href="<?php echo base_url('home/listAnswer?c=' . $thisContest->getID()); ?>">判题状态</a>
+                            <a class="btn btn-primary btn-xs" href="<?php echo base_url('home/listAnswerInContest/' . $thisContest->getID()); ?>">判题状态</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
