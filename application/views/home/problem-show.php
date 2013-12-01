@@ -9,7 +9,7 @@
         <?php $thisAnswerList = $thatProblem->getAnswerList(); ?>
         <div class="text-center">
             <h2>
-                <span><small>问题</small></span>
+                <span><small>问题ID</small></span>
                 <span class="text-success">·<?php echo $thatProblem->getID(); ?>·</span>
             </h2>
 

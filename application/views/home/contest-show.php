@@ -5,27 +5,6 @@
  * @var Problem $thisProblem
  */
 ?>
-<script>
-    $(document).ready(function () {
-        $('table#problem-list').dataTable({
-            "oLanguage"      : {
-                "sLengthMenu"  : "每页显示 _MENU_ 条结果",
-                "sZeroRecords" : "无数据",
-                "sInfo"        : "_START_ ~ _END_ (共 _TOTAL_ 条) ",
-                "sInfoEmpty"   : "无数据",
-                "sInfoFiltered": "(从 _MAX_ 条中过滤)",
-                "sSearch"      : "搜索：",
-                "oPaginate"    : {
-                    "sFirst"   : "<<",
-                    "sPrevious": "<",
-                    "sNext"    : ">",
-                    "sLast"    : ">>"
-                }
-            },
-            "sPaginationType": "full_numbers"
-        });
-    });
-</script>
 <div id="content">
     <?php if (isset($thatContest)): ?>
         <?php $thatProblemList = $thatContest->getProblemList(); ?>
@@ -51,7 +30,7 @@
             <table id="problem-list" class="table table-condensed">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>题号</th>
                     <th>标题</th>
                     <th>权限</th>
                     <th>通过率(AC数/提交数)</th>
@@ -62,11 +41,12 @@
                 </thead>
                 <tbody>
                 <?php if (isset ($thatProblemList)) : ?>
+                    <?php $i = 'A'; ?>
                     <?php foreach ($thatProblemList->getProblemArray() as $thisProblem) : ?>
                         <?php if (!$thisProblem) continue; ?>
                         <?php $thisAnswerList = $thisProblem->getAnswerList(); ?>
                         <tr onclick="location.href='<?php echo base_url('home/showProblem/' . $thisProblem->getID()); ?>'">
-                            <td><?php echo $thisProblem->getID(); ?></td>
+                            <td><?php echo($i++); ?></td>
                             <td><?php echo $thisProblem->getTitle(); ?></td>
                             <td><?php echo($thisProblem->getPasswordHashed() ? 'Private' : 'Public'); ?></td>
                             <td><?php echo $thisAnswerList->getCountSubmit() == 0 ? '无数据' : (round($thisAnswerList->getCountAccepted() / $thisAnswerList->getCountSubmit() * 100, 2) . '% ' . '(' . $thisAnswerList->getCountAccepted() . '/' . $thisAnswerList->getCountSubmit() . ')'); ?></td>
