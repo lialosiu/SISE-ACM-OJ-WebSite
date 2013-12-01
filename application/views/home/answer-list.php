@@ -5,13 +5,13 @@
  * @var Answer $thisAnswer
  */
 ?>
-<script>
-    $(document).ready(function () {
-        $('table#answer-list').dataTable();
-    });
-</script>
 <div id="content">
     <div class="panel panel-default">
+        <div class="panel-heading">
+            <div style="float: right">
+                <?php if (isset($thatPaginationHtml)) echo $thatPaginationHtml; ?>
+            </div>
+        </div>
         <table id="answer-list" class="table">
             <thead>
             <tr>
@@ -63,5 +63,12 @@
             <?php endif; ?>
             </tbody>
         </table>
+        <div class="panel-footer">
+            <div style="float: right">
+                <?php if (isset($thatPaginationHtml)) echo $thatPaginationHtml; ?>
+            </div>
+        </div>
     </div>
+
+
 </div>
