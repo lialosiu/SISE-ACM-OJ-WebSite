@@ -32,6 +32,7 @@
             $.each(RankData, function (Rank, thisUserData) {
                 HTML += '<tr>';
                 HTML += '<td>' + (Rank + 1) + '</td>';
+                HTML += '<td>' + thisUserData['Username'] + '</td>';
                 HTML += '<td>' + thisUserData['Nickname'] + '</td>';
                 HTML += '<td>' + thisUserData['CountAccepted'] + '</td>';
                 HTML += '<td>' + thisUserData['UsedTime'] + '</td>';
@@ -53,6 +54,7 @@
             <thead>
             <tr>
                 <th>Rank</th>
+                <th>用户名</th>
                 <th>用户昵称</th>
                 <th>AC数</th>
                 <th>所用时间</th>
@@ -68,6 +70,7 @@
                 <?php foreach ($thatRankData as $key => $thisRankData_Row) : ?>
                     <tr>
                         <td><?php echo $key + 1; ?></td>
+                        <td><?php echo $thisRankData_Row['Username']; ?></td>
                         <td><?php echo $thisRankData_Row['Nickname']; ?></td>
                         <td><?php echo $thisRankData_Row['CountAccepted']; ?></td>
                         <td><?php echo $thisRankData_Row['UsedTime']; ?></td>

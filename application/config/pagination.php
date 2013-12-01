@@ -1,6 +1,7 @@
 <?php
 $config = [
     'use_page_numbers' => true,
+    'num_links'        => 5,
     'full_tag_open'    => '<ul class="pagination">',
     'full_tag_close'   => '</ul>',
     'num_tag_open'     => '<li>',
