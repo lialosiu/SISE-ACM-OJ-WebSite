@@ -440,8 +440,6 @@ class Home extends CI_Controller
 
     public function rank()
     {
-        $this->output->enable_profiler(TRUE);
-
         $thatRankData = Rank::all();
 
         $this->load->view('home/html-header', [
