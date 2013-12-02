@@ -398,9 +398,10 @@ class Home extends CI_Controller
         $thatAnswerList = AnswerManager::getAnswerListByProblemIDArray($thatProblemIDArray, $Page, $Limit);
         $this->load->library('pagination');
         $this->pagination->initialize([
-            'base_url'   => base_url('home/listAnswerInContest/' . $thatContest->getID()),
-            'total_rows' => $thatAnswerList->getCountWithFilter(),
-            'per_page'   => $Limit,
+            'base_url'    => base_url('home/listAnswerInContest/' . $thatContest->getID()),
+            'total_rows'  => $thatAnswerList->getCountWithFilter(),
+            'per_page'    => $Limit,
+            'uri_segment' => 4
         ]);
 
         $this->load->view('home/html-header', [
