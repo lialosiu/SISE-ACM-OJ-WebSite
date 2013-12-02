@@ -47,22 +47,14 @@ class Rank
             $thisUserData['CountSubmit']++;
             $thisProblemData['CountSubmit']++;
             if ($thisAnswer->getStatusCode() == _StatusCode_Accepted) {
-                $thisProblemData['Accepted'] = true;
+                if ($thisProblemData['Accepted'] == false) {
+                    $thisUserData['CountAccepted']++;
+                    $thisProblemData['Accepted'] = true;
+                }
             }
 
             $thisUserData['Problem'][$thisAnswer->getProblemID()] = $thisProblemData;
             $RankData[$thisAnswer->getUserID()]                   = $thisUserData;
-        }
-
-
-        foreach ($RankData as $thisUserID => $thisUserData) {
-            foreach ($thisUserData['Problem'] as $thisProblemID => $thisProblemData) {
-                if ($thisProblemData['Accepted'] == true) {
-                    $thisUserData['CountAccepted']++;
-                }
-                $thisUserData['Problem'][$thisProblemID] = $thisProblemData;
-            }
-            $RankData[$thisUserID] = $thisUserData;
         }
 
         function sort_by_CountAccepted_CountSubmit($a, $b)
@@ -130,24 +122,23 @@ class Rank
             $thisUserData['CountSubmit']++;
             $thisProblemData['CountSubmit']++;
             if ($thisAnswer->getStatusCode() == _StatusCode_Accepted) {
-                $thisProblemData['Accepted']         = true;
-                $thisProblemData['AcceptedUsedTime'] = ceil((strtotime($thisAnswer->getSubmitTime()) - strtotime($thatContest->getStartTime())) / 60);
+                if ($thisProblemData['Accepted'] == false) {
+                    $thisProblemData['Accepted']         = true;
+                    $thisProblemData['AcceptedUsedTime'] = ceil((strtotime($thisAnswer->getSubmitTime()) - strtotime($thatContest->getStartTime())) / 60);
+                    $thisUserData['CountAccepted']++;
+                    $thisUserData['UsedTime'] += $thisProblemData['AcceptedUsedTime'];
+                    $thisUserData['UsedTime'] += ($thisProblemData['CountSubmit'] - 1) * 20;
+                } else {
+                    $thisUserData['UsedTime'] += 20;
+                    if (ceil((strtotime($thisAnswer->getSubmitTime()) - strtotime($thatContest->getStartTime())) / 60) < $thisProblemData['AcceptedUsedTime'])
+                        $thisProblemData['AcceptedUsedTime'] = ceil((strtotime($thisAnswer->getSubmitTime()) - strtotime($thatContest->getStartTime())) / 60);
+                }
+            } else if ($thisProblemData['Accepted'] == true) {
+                $thisUserData['UsedTime'] += 20;
             }
 
             $thisUserData['Problem'][$thisAnswer->getProblemID()] = $thisProblemData;
             $RankData[$thisAnswer->getUserID()]                   = $thisUserData;
-        }
-
-        foreach ($RankData as $thisUserID => $thisUserData) {
-            foreach ($thisUserData['Problem'] as $thisProblemID => $thisProblemData) {
-                if ($thisProblemData['Accepted'] == true) {
-                    $thisUserData['CountAccepted']++;
-                    $thisUserData['UsedTime'] += $thisProblemData['AcceptedUsedTime'];
-                    $thisUserData['UsedTime'] += ($thisProblemData['CountSubmit'] - 1) * 20;
-                }
-                $thisUserData['Problem'][$thisProblemID] = $thisProblemData;
-            }
-            $RankData[$thisUserID] = $thisUserData;
         }
 
         function sort_by_CountAccepted($a, $b)
