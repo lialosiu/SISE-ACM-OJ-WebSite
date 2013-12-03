@@ -99,6 +99,17 @@ class AnswerManager
     }
 
     /**
+     * @param $StatusCode
+     * @param int $Page
+     * @param int $Limit
+     * @return AnswerList
+     */
+    public static function getAnswerListByStatusCode($StatusCode, $Page = 0, $Limit = 0)
+    {
+        return Answer_Model::getAnswerListByStatusCode($StatusCode, $Page, $Limit);
+    }
+
+    /**
      * @param Answer $thatAnswer
      * @return bool
      */

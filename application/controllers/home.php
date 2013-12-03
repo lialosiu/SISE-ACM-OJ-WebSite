@@ -374,6 +374,35 @@ class Home extends CI_Controller
         $this->load->view('home/html-footer');
     }
 
+    public function listAnswerByStatusCode($StatusCode = 0, $Page = 1, $Limit = _DefaultRowLimit_)
+    {
+        if (!is_numeric($StatusCode)) $StatusCode = 0;
+        if (!is_numeric($Page) || !is_numeric($Limit) || !$Page > 0 || !$Limit > 0) {
+            $Page  = 1;
+            $Limit = _DefaultRowLimit_;
+        }
+
+        $thatAnswerList = AnswerManager::getAnswerListByStatusCode($StatusCode, $Page, $Limit);
+
+        $this->load->library('pagination');
+        $this->pagination->initialize([
+            'base_url'    => base_url('home/listAnswerByStatusCode/' . $StatusCode),
+            'total_rows'  => $thatAnswerList->getCountWithFilter(),
+            'per_page'    => $Limit,
+            'uri_segment' => 4
+        ]);
+
+        $this->load->view('home/html-header', [
+            'thatAnswerList'      => $thatAnswerList,
+            'thatPaginationHtml'  => $this->pagination->create_links(),
+            'SelectingStatusCode' => $StatusCode
+        ]);
+        $this->load->view('home/header');
+        $this->load->view('home/answer-list');
+        $this->load->view('home/footer');
+        $this->load->view('home/html-footer');
+    }
+
     public function listAnswerInContest($ContestID = 0, $Page = 1, $Limit = _DefaultRowLimit_)
     {
         if (!is_numeric($ContestID) || !$ContestID > 0) {

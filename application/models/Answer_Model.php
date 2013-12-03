@@ -123,6 +123,50 @@ class Answer_Model extends CI_Model
         return $thatAnswerList;
     }
 
+    /**
+     * @param $StatusCode
+     * @param int $Page
+     * @param int $Limit
+     * @return AnswerList
+     */
+    public static function getAnswerListByStatusCode($StatusCode, $Page = 0, $Limit = 0)
+    {
+        /** @var CI $CI */
+        $CI =& get_instance();
+
+        $CI->db->from('answer');
+        $CI->db->where('answer.StatusCode', $StatusCode);
+        $countWithFilter = $CI->db->count_all_results();
+
+        $thatAnswerList = new AnswerList($countWithFilter);
+
+        $CI->db->select('answer.*');
+        $CI->db->from('answer');
+        $CI->db->where('answer.StatusCode', $StatusCode);
+        $CI->db->order_by('answer.ID', 'desc');
+        if ($Page > 0 && $Limit > 0) $CI->db->limit($Limit, ($Page - 1) * $Limit);
+        $query  = $CI->db->get();
+        $result = $query->result();
+
+        foreach ($result as $row) {
+            $thatAnswer = new Answer(
+                $row->ID,
+                $row->ProblemID,
+                $row->UserID,
+                $row->LanguageCode,
+                $row->SourceCode,
+                $row->UsedTime,
+                $row->UsedMemory,
+                $row->StatusCode,
+                $row->Info,
+                $row->SubmitTime,
+                $row->MarkedTime
+            );
+            $thatAnswerList->addAnswer($thatAnswer);
+        }
+
+        return $thatAnswerList;
+    }
 
     /**
      * @param int $ProblemID
