@@ -245,8 +245,6 @@ class Api extends CI_Controller
 
         AnswerManager::createAnswer($thatProblem, $CurrentUser, $LanguageCode, $SourceCode);
 
-        ACMAnswerCheckerConnector::CheckPendingAnswer();
-
         //不是ajax请求，跳转
         if (!$this->input->is_ajax_request()) redirect(base_url('home/listAnswer/'));
     }
@@ -569,8 +567,6 @@ class Api extends CI_Controller
 
         AnswerManager::updateAnswer($thatAnswer);
 
-        ACMAnswerCheckerConnector::CheckPendingAnswer();
-
         //不是ajax请求，跳转
         if (!$this->input->is_ajax_request()) redirect(base_url('home/listAnswer'));
     }
@@ -599,8 +595,6 @@ class Api extends CI_Controller
             $thisAnswer->setStatusToPending();
             AnswerManager::updateAnswer($thisAnswer);
         }
-
-        ACMAnswerCheckerConnector::CheckPendingAnswer();
 
         //不是ajax请求，跳转
         if (!$this->input->is_ajax_request()) redirect(base_url('home/listAnswer'));
