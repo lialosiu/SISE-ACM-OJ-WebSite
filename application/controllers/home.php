@@ -169,6 +169,12 @@ class Home extends CI_Controller
 
     public function answerProblem($ID = 0)
     {
+        //检查权限
+        if ($this->CurrentUser->getID() == 0) {
+            if (!$this->input->is_ajax_request()) redirect(base_url('login'));
+            exit;
+        }
+
         $thatProblem = ProblemManager::getProblemByID($ID);
 
         $this->load->view('home/html-header', [

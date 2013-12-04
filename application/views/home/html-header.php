@@ -42,24 +42,24 @@
         $(document).ready(function () {
             SyntaxHighlighter.all();
             $.extend(true, $.fn.dataTable.defaults, {
-                "sDom"           : '<"panel-heading"lf>rt<"panel-footer"ip><"clearfix">',
+                "sDom": '<"panel-heading"lf>rt<"panel-footer"ip><"clearfix">',
                 "sPaginationType": "full_numbers",
-                "oLanguage"      : {
-                    "sLengthMenu"  : "每页显示 _MENU_ 条结果",
-                    "sZeroRecords" : "无数据",
-                    "sEmptyTable"  : "无数据",
-                    "sInfo"        : "_START_ ~ _END_ (共 _TOTAL_ 条) ",
-                    "sInfoEmpty"   : "无数据",
+                "oLanguage": {
+                    "sLengthMenu": "每页显示 _MENU_ 条结果",
+                    "sZeroRecords": "无数据",
+                    "sEmptyTable": "无数据",
+                    "sInfo": "_START_ ~ _END_ (共 _TOTAL_ 条) ",
+                    "sInfoEmpty": "无数据",
                     "sInfoFiltered": "(从 _MAX_ 条中过滤)",
-                    "sSearch"      : "搜索：",
-                    "oPaginate"    : {
-                        "sFirst"   : "<<",
+                    "sSearch": "搜索：",
+                    "oPaginate": {
+                        "sFirst": "<<",
                         "sPrevious": "<",
-                        "sNext"    : ">",
-                        "sLast"    : ">>"
+                        "sNext": ">",
+                        "sLast": ">>"
                     }
                 },
-                "aaSorting"      : [
+                "aaSorting": [
                     [ 0, "desc" ]
                 ]
             });
@@ -68,9 +68,9 @@
 
         function checkNotification() {
             $.ajax({
-                url    : '<?php echo base_url('api/getNotificationListAsJson')?>',
-                type   : "post",
-                data   : {},
+                url: '<?php echo base_url('api/getNotificationListAsJson')?>',
+                type: "post",
+                data: {},
                 success: function (data) {
                     try {
                         var NotificationList = $.parseJSON(data);
@@ -80,8 +80,8 @@
                             if (LatestNotificationID === -1)
                                 LatestNotificationID = NotificationList[NotificationList.length - 1].ID;
                             else if (LatestNotificationID < NotificationList[NotificationList.length - 1].ID) {
-                                $('#NotificationModal .modal-title').html(NotificationList[NotificationList.length - 1].Title);
-                                $('#NotificationModal .modal-body').html(NotificationList[NotificationList.length - 1].Content);
+                                $('#NotificationModal').find('.modal-title').html(NotificationList[NotificationList.length - 1].Title);
+                                $('#NotificationModal').find('.modal-body').html(NotificationList[NotificationList.length - 1].Content);
                                 LatestNotificationID = NotificationList[NotificationList.length - 1].ID;
                                 $('#NotificationModal').modal();
                             }
@@ -91,7 +91,7 @@
                         clearInterval(Interval_checkNotification);
                     }
                 },
-                error  : function (jqXHR, textStatus, errorThrown) {
+                error: function (jqXHR, textStatus, errorThrown) {
                     console.error(textStatus);
                     clearInterval(Interval_checkNotification);
                 }
@@ -114,6 +114,14 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div id="loading" style="position: fixed;top :0;left: 0;bottom: 0;right: 0; background-color: rgba(0,0,0,0.5); z-index: 99;display: none;">
+    <div class="progress progress-striped active" style="position: absolute;top: 48%;left:30px;right:30px;box-shadow: 0 0 10px 1px #000;">
+        <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
         </div>
     </div>
 </div>

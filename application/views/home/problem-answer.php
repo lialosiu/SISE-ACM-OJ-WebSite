@@ -7,6 +7,7 @@
     $(document).ready(function () {
         $('form#problem-answer').submit(function (e) {
             e.preventDefault();
+            $('#loading').show();
             $.post('<?php echo base_url('api/answerProblem'); ?>',
                 {
                     'ID'          :<?php echo $thatProblem->getID(); ?>,
