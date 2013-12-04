@@ -1,8 +1,8 @@
 <?php
 /**
  * @var AnswerList $thatAnswerList
- * @var User $CurrentUser
- * @var Answer $thisAnswer
+ * @var User       $CurrentUser
+ * @var Answer     $thisAnswer
  */
 ?>
 <div id="content">
