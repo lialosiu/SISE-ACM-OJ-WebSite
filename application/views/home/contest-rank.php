@@ -2,7 +2,7 @@
 /**
  * @var Contest $thatContest
  * @var Problem $thisProblem
- * @var array $thatRankData
+ * @var array   $thatRankData
  */
 ?>
 <?php if (isset($thatContest)): ?>
@@ -68,6 +68,7 @@
             <tbody>
             <?php if (isset($thatRankData) && $thatContest->isRankTime()): ?>
                 <?php foreach ($thatRankData as $key => $thisRankData_Row) : ?>
+                    <?php if ($thisRankData_Row['CountSubmit'] == 0) continue; ?>
                     <tr>
                         <td><?php echo $key + 1; ?></td>
                         <td><?php echo $thisRankData_Row['Username']; ?></td>
