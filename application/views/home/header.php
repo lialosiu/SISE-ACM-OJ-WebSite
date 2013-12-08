@@ -3,7 +3,7 @@
     var offset;
     $(document).ready(function () {
         serverTime = new Date(serverTime * 1000);
-        offset = (new Date()).valueOf() - serverTime.valueOf();
+        offset = serverTime.valueOf() - (new Date()).valueOf();
         setInterval("updateServerTime()", 1000);
     });
     function updateServerTime() {
@@ -14,7 +14,7 @@
             return s < 10 ? '0' + s : s;
         }
 
-        return p(d.getFullYear()) + '-' + p(d.getMonth()+1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+        return p(d.getFullYear()) + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
     }
 </script>
 <div id="header" style="background: #fff url(<?php echo base_url('public/images/header-banner.jpg'); ?>) no-repeat center; background-size: contain;">
