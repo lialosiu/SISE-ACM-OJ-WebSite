@@ -7,7 +7,6 @@
         setInterval("updateServerTime()", 1000);
     });
     function updateServerTime() {
-        offset = new Date() - serverTime;
         $('#server-time').html(date2NowTimeString(new Date(new Date() + offset)));
     }
     function date2NowTimeString(d) {
