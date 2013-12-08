@@ -59,8 +59,10 @@
                 <th>AC数</th>
                 <th>所用时间</th>
                 <?php if (isset($thatContest)): ?>
+                    <?php $i = 'A'; ?>
                     <?php foreach ($thatContest->getProblemList()->getProblemArray() as $thisProblem) : ?>
-                        <th><?php echo $thisProblem->getID(); ?></th>
+                        <?php if (!$thisProblem) continue; ?>
+                        <th><a href="<?php echo base_url('home/showProblem/' . $thisProblem->getID()); ?>"><?php echo $i++; ?></a></th>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </tr>
