@@ -11,6 +11,7 @@
         <li <?php if ($this->router->fetch_method() === 'listAnswer') echo 'class="active"' ?>><a href="<?php echo base_url('home/listAnswer'); ?>">判题状态</a></li>
         <li <?php if ($this->router->fetch_method() === 'rank') echo 'class="active"' ?>><a href="<?php echo base_url('home/rank'); ?>">排行榜</a></li>
         <li <?php if ($this->router->fetch_method() === 'listNotification') echo 'class="active"' ?>><a href="<?php echo base_url('home/listNotification'); ?>">通知</a></li>
+        <li <?php if ($this->router->fetch_method() === 'download') echo 'class="active"' ?>><a href="<?php echo base_url('download'); ?>">下载</a></li>
         <?php if (isset($CurrentUser) && $CurrentUser->isAdministrator())  : ?>
             <li <?php if ($this->router->fetch_method() === 'listUser') echo 'class="active"' ?>><a href="<?php echo base_url('home/listUser'); ?>">用户管理</a></li>
         <?php endif; ?>
