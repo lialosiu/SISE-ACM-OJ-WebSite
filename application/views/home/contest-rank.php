@@ -32,8 +32,8 @@
             $.each(RankData, function (Rank, thisUserData) {
                 HTML += '<tr>';
                 HTML += '<td>' + (Rank + 1) + '</td>';
-                HTML += '<td>' + thisUserData['Username'] + '</td>';
-                HTML += '<td>' + thisUserData['Nickname'] + '</td>';
+                HTML += '<td><a href="' + base_url('home/showUser/') + thisUserData['ID'] + '">' + thisUserData['Username'] + '</a></td>';
+                HTML += '<td><a href="' + base_url('home/showUser/') + thisUserData['ID'] + '">' + thisUserData['Nickname'] + '</a></td>';
                 HTML += '<td>' + thisUserData['CountAccepted'] + '</td>';
                 HTML += '<td>' + thisUserData['UsedTime'] + '</td>';
                 $.each(thisUserData['Problem'], function (ProblemID, thisProblemData) {
@@ -73,8 +73,8 @@
                     <?php if ($thisRankData_Row['CountSubmit'] == 0) continue; ?>
                     <tr>
                         <td><?php echo $key + 1; ?></td>
-                        <td><?php echo $thisRankData_Row['Username']; ?></td>
-                        <td><?php echo $thisRankData_Row['Nickname']; ?></td>
+                        <td><a href="<?php echo base_url('home/showUser/' . $thisRankData_Row['ID']); ?>"><?php echo $thisRankData_Row['Username']; ?></a></td>
+                        <td><a href="<?php echo base_url('home/showUser/' . $thisRankData_Row['ID']); ?>"><?php echo $thisRankData_Row['Nickname']; ?></a></td>
                         <td><?php echo $thisRankData_Row['CountAccepted']; ?></td>
                         <td><?php echo $thisRankData_Row['UsedTime']; ?></td>
 
