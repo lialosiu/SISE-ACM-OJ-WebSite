@@ -3,7 +3,7 @@
     var offset;
     $(document).ready(function () {
         serverTime = new Date(serverTime * 1000);
-        offset = new Date() - serverTime;
+        offset = (new Date()).valueOf() - serverTime.valueOf();
         setInterval("updateServerTime()", 1000);
     });
     function updateServerTime() {
