@@ -366,7 +366,7 @@ class Home extends CI_Controller
         $this->load->library('pagination');
         $this->pagination->initialize([
             'base_url'   => base_url('home/listAnswer'),
-            'total_rows' => $thatAnswerList->getCountWithFilter(),
+            'total_rows' => $thatAnswerList->getCountTotalWithFilter(),
             'per_page'   => $Limit,
         ]);
 
@@ -555,6 +555,16 @@ class Home extends CI_Controller
         ]);
         $this->load->view('home/header');
         $this->load->view('home/notification-edit');
+        $this->load->view('home/footer');
+        $this->load->view('home/html-footer');
+    }
+
+    public function download()
+    {
+        $this->load->helper('directory');
+        $this->load->view('home/html-header', ['SoftwareNameList' => directory_map('public/software')]);
+        $this->load->view('home/header');
+        $this->load->view('home/download');
         $this->load->view('home/footer');
         $this->load->view('home/html-footer');
     }
