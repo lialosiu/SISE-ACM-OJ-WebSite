@@ -366,7 +366,7 @@ class Home extends CI_Controller
         $this->load->library('pagination');
         $this->pagination->initialize([
             'base_url'   => base_url('home/listAnswer'),
-            'total_rows' => $thatAnswerList->getCountTotalWithFilter(),
+            'total_rows' => $thatAnswerList->getCountWithFilter(),
             'per_page'   => $Limit,
         ]);
 
